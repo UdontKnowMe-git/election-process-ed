@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useElectionStore } from '../store/useElectionStore';
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { activeTab, setActiveTab } = useElectionStore();
 
   const navLinks = [
-    { label: 'Interactive Timeline', isActive: true },
-    { label: 'Voter Quest', isActive: false },
-    { label: 'Myth vs. Fact', isActive: false },
-    { label: 'Civic Guru', isActive: false },
+    { id: 'timeline', label: 'Interactive Timeline' },
+    { id: 'voter-quest', label: 'Voter Quest' },
+    { id: 'myth-vs-fact', label: 'Myth vs. Fact' },
+    { id: 'civic-guru', label: 'Civic Guru' },
   ];
 
   return (
@@ -27,20 +29,24 @@ export const Navbar = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <ul className="flex items-center gap-6">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <button
-                  className={`text-sm font-semibold transition-colors duration-300 ${
-                    link.isActive
-                      ? 'text-[#E47A2E] border-b-2 border-[#E47A2E]'
-                      : 'text-[#1A365D]/70 hover:text-[#1A365D]'
-                  }`}
-                  aria-current={link.isActive ? 'page' : undefined}
-                >
-                  {link.label}
-                </button>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.id;
+              return (
+                <li key={link.id}>
+                  <button
+                    onClick={() => setActiveTab(link.id)}
+                    className={`text-sm font-semibold transition-colors duration-300 ${
+                      isActive
+                        ? 'text-[#E47A2E] border-b-2 border-[#E47A2E]'
+                        : 'text-[#1A365D]/70 hover:text-[#1A365D]'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
 
         </nav>
@@ -59,17 +65,24 @@ export const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-[#FDFBF7] border-b border-[#1A365D]/10 shadow-lg py-4 px-6 flex flex-col gap-4">
           <ul className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <button
-                  className={`text-base font-semibold w-full text-left ${
-                    link.isActive ? 'text-[#E47A2E]' : 'text-[#1A365D]/70'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.id;
+              return (
+                <li key={link.id}>
+                  <button
+                    onClick={() => {
+                      setActiveTab(link.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`text-base font-semibold w-full text-left ${
+                      isActive ? 'text-[#E47A2E]' : 'text-[#1A365D]/70'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

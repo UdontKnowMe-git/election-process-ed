@@ -1,0 +1,66 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is the minimum voting age for a citizen of India?",
+      "options": ["16", "18", "21", "25"],
+      "correctAnswer": 1
+    },
+    {
+      "id": "q2",
+      "text": "Which independent body is responsible for conducting free and fair elections in India?",
+      "options": ["Supreme Court", "Parliament", "Election Commission of India", "President of India"],
+      "correctAnswer": 2
+    },
+    {
+      "id": "q3",
+      "text": "What does EVM stand for in the context of Indian elections?",
+      "options": ["Electronic Voting Machine", "Electoral Verification Module", "Election Variable Manager", "Electronic Validating Machine"],
+      "correctAnswer": 0
+    },
+    {
+      "id": "q4",
+      "text": "Who appoints the Chief Election Commissioner of India?",
+      "options": ["Prime Minister", "President", "Chief Justice", "The People"],
+      "correctAnswer": 1
+    },
+    {
+      "id": "q5",
+      "text": "What is the maximum number of members in the Lok Sabha as per the Constitution?",
+      "options": ["500", "545", "552", "600"],
+      "correctAnswer": 2
+    }
+  ],
+  "myths": [
+    {
+      "id": "m1",
+      "statement": "If you don't vote in one election, your name is automatically removed from the voter list.",
+      "isFact": false,
+      "explanation": "Your name remains on the electoral roll until you move, pass away, or are disqualified. However, you should periodically check your status."
+    },
+    {
+      "id": "m2",
+      "statement": "EVMs (Electronic Voting Machines) are not connected to any network like the internet.",
+      "isFact": true,
+      "explanation": "EVMs are standalone machines. They have no wireless communication components and are entirely disconnected from the internet, preventing remote hacking."
+    },
+    {
+      "id": "m3",
+      "statement": "You need your Voter ID card (EPIC) to cast your vote. Without it, you cannot vote.",
+      "isFact": false,
+      "explanation": "While EPIC is preferred, you can use other approved photo identity documents like Aadhaar, Passport, or PAN card, provided your name is on the electoral roll."
+    },
+    {
+      "id": "m4",
+      "statement": "NOTA (None of the Above) votes do not affect the election outcome.",
+      "isFact": true,
+      "explanation": "NOTA simply registers a rejection of all candidates. Even if NOTA gets the highest votes, the candidate with the next highest votes is declared the winner."
+    },
+    {
+      "id": "m5",
+      "statement": "The Model Code of Conduct comes into effect the moment elections are announced.",
+      "isFact": true,
+      "explanation": "The MCC comes into force immediately after the Election Commission announces the election schedule, ensuring a level playing field."
+    }
+  ]
+}

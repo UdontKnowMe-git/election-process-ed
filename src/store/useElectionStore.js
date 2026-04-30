@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
 export const useElectionStore = create((set) => ({
-  // Store ready for upcoming features like Voter Quest
-  score: 0,
+  activeTab: 'timeline', // 'timeline', 'voter-quest', 'myth-vs-fact', 'civic-guru'
+  setActiveTab: (tab) => set({ activeTab: tab }),
 }));
