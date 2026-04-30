@@ -1,0 +1,37 @@
+[
+  {
+    "id": "announcement",
+    "title": "Announcement of Elections",
+    "date": "March 16, 2024",
+    "description": "The Election Commission of India announces the polling schedule, enforcing the Model Code of Conduct across the nation.",
+    "imageUrl": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    "id": "phase-1",
+    "title": "Phase 1 Polling",
+    "date": "April 19, 2024",
+    "description": "The largest phase of the Lok Sabha elections begins, with voters across numerous states and union territories casting their ballots.",
+    "imageUrl": "https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=2049&auto=format&fit=crop"
+  },
+  {
+    "id": "subsequent-phases",
+    "title": "Subsequent Phases",
+    "date": "April 26 - June 1, 2024",
+    "description": "Polling continues in six more phases, covering the massive population and diverse geography of the country.",
+    "imageUrl": "https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?q=80&w=1973&auto=format&fit=crop"
+  },
+  {
+    "id": "counting",
+    "title": "Counting of Votes",
+    "date": "June 4, 2024",
+    "description": "The Electronic Voting Machines (EVMs) are opened, and the votes are counted simultaneously across the nation to declare the results.",
+    "imageUrl": "https://images.unsplash.com/photo-1541808620299-fb757b324022?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    "id": "formation",
+    "title": "Government Formation",
+    "date": "June 9, 2024",
+    "description": "The party or coalition with the majority in the Lok Sabha forms the new government, and the Prime Minister is sworn into office.",
+    "imageUrl": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2112&auto=format&fit=crop"
+  }
+]
