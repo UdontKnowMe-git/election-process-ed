@@ -1,0 +1,90 @@
+{
+  "en": {
+    "nav": {
+      "timeline": "Timeline",
+      "voter-quest": "Voter Quest",
+      "myth-vs-fact": "Myth vs. Fact",
+      "latest-news": "Latest News"
+    },
+    "accessibility": {
+      "hub_title": "Accessibility Hub",
+      "theme_mode": "Theme Mode",
+      "dyslexia_font": "Dyslexia Font",
+      "reduced_motion": "Reduced Motion",
+      "enhanced_focus": "Enhanced Focus",
+      "translation": "Translation",
+      "motto": "Making democracy accessible for everyone."
+    },
+    "timeline": {
+      "title": "The Path to the",
+      "lok_sabha": "Lok Sabha",
+      "subtitle": "Follow the rigorous and historic timeline that defines how the Indian Government is elected."
+    },
+    "voter_quest": {
+      "title": "Voter's Quest",
+      "subtitle": "Test your knowledge of the Indian electoral process. Answer within 5 seconds for DOUBLE POINTS!",
+      "start_btn": "Start Quest",
+      "quest_complete": "Quest Complete!",
+      "your_score": "Your Civic Score",
+      "play_again": "Play Again",
+      "score": "Score",
+      "streak": "Streak",
+      "points_active": "2X POINTS ACTIVE",
+      "question": "Question"
+    },
+    "latest_news": {
+      "title": "Latest",
+      "news": "News",
+      "subtitle": "Real-time updates from the Indian Election landscape.",
+      "live_updates": "LIVE UPDATES",
+      "read_more": "Read More",
+      "subscribe_title": "Subscribe to Voter Alerts",
+      "subscribe_subtitle": "Get notified about polling dates and candidate lists in your constituency.",
+      "subscribe_btn": "Join"
+    }
+  },
+  "hi": {
+    "nav": {
+      "timeline": "समयरेखा",
+      "voter-quest": "मतदाता प्रश्नोत्तरी",
+      "myth-vs-fact": "मिथक बनाम तथ्य",
+      "latest-news": "ताज़ा समाचार"
+    },
+    "accessibility": {
+      "hub_title": "पहुंच केंद्र",
+      "theme_mode": "थीम मोड",
+      "dyslexia_font": "डिस्लेक्सिया फ़ॉन्ट",
+      "reduced_motion": "कम गति",
+      "enhanced_focus": "बेहतर फोकस",
+      "translation": "अनुवाद",
+      "motto": "लोकतंत्र को सभी के लिए सुलभ बनाना।"
+    },
+    "timeline": {
+      "title": "का मार्ग",
+      "lok_sabha": "लोकसभा",
+      "subtitle": "उस कठोर और ऐतिहासिक समयरेखा का पालन करें जो परिभाषित करती है कि भारत सरकार कैसे चुनी जाती है।"
+    },
+    "voter_quest": {
+      "title": "मतदाता की खोज",
+      "subtitle": "भारतीय चुनावी प्रक्रिया के अपने ज्ञान का परीक्षण करें। डबल अंक के लिए 5 सेकंड के भीतर उत्तर दें!",
+      "start_btn": "खोज शुरू करें",
+      "quest_complete": "खोज पूरी हुई!",
+      "your_score": "आपका नागरिक स्कोर",
+      "play_again": "फिर से खेलें",
+      "score": "स्कोर",
+      "streak": "लगातार",
+      "points_active": "2X अंक सक्रिय",
+      "question": "प्रश्न"
+    },
+    "latest_news": {
+      "title": "ताज़ा",
+      "news": "समाचार",
+      "subtitle": "भारतीय चुनाव परिदृश्य से वास्तविक समय के अपडेट।",
+      "live_updates": "लाइव अपडेट",
+      "read_more": "और पढ़ें",
+      "subscribe_title": "मतदाता अलर्ट की सदस्यता लें",
+      "subscribe_subtitle": "अपने निर्वाचन क्षेत्र में मतदान की तारीखों और उम्मीदवार सूची के बारे में सूचित रहें।",
+      "subscribe_btn": "जुड़ें"
+    }
+  }
+}

@@ -3,22 +3,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useSound from 'use-sound';
 import confetti from 'canvas-confetti';
 import { useQuizStore } from '../store/useQuizStore';
+import { useElectionStore } from '../store/useElectionStore';
 import quizData from '../data/quizData.json';
+import translations from '../data/translations.json';
 import { Timer, Zap, Trophy, PlayCircle } from 'lucide-react';
 
 export const VoterQuest = () => {
   const { status, currentQuestionIndex, score, streakMultiplier, startQuiz, answerQuestion, nextQuestion } = useQuizStore();
+  const { language } = useElectionStore();
+  const [questions, setQuestions] = useState([]);
   const [timeLeft, setTimeLeft] = useState(15);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isAnswering, setIsAnswering] = useState(false);
 
-  const questions = quizData.questions;
+  const t = translations[language]?.voter_quest || translations.en.voter_quest;
+
   const currentQ = questions[currentQuestionIndex];
 
   // Placeholder sound paths - need to be added by user
   const [playTick] = useSound('/sounds/tick.mp3', { volume: 0.5 });
   const [playSuccess] = useSound('/sounds/success.mp3', { volume: 0.8 });
   const [playError] = useSound('/sounds/error.mp3', { volume: 0.5 });
+
+  useEffect(() => {
+    // Select 5 random questions
+    const shuffled = [...quizData.questions].sort(() => 0.5 - Math.random());
+    setQuestions(shuffled.slice(0, 5));
+  }, [status === 'idle']); // Only shuffle when resetting or starting new
 
   useEffect(() => {
     let timer;
@@ -62,7 +73,7 @@ export const VoterQuest = () => {
 
     const isCorrect = index === currentQ?.correctAnswer;
     if (isCorrect) playSuccess();
-    else if (index !== -1) playError(); // Don't play error sound for timeout, maybe play a timeout sound if we had one
+    else if (index !== -1) playError(); // Don't play error sound for timeout
 
     answerQuestion(isCorrect, timeLeft);
 
@@ -77,14 +88,14 @@ export const VoterQuest = () => {
   if (status === 'idle') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-[#1A365D]/10">
+        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-secondary-bg p-8 rounded-3xl shadow-xl max-w-md w-full border border-primary-border">
           <Trophy className="w-20 h-20 text-[#E47A2E] mx-auto mb-6" />
-          <h2 className="text-3xl font-black text-[#1A365D] mb-4">Voter's Quest</h2>
-          <p className="text-[#1A365D]/70 mb-8 leading-relaxed">
-            Test your knowledge of the Indian electoral process. Answer within 5 seconds for <strong className="text-[#E47A2E]">DOUBLE POINTS</strong>!
+          <h2 className="text-3xl font-black text-primary-text mb-4">{t.title}</h2>
+          <p className="text-muted-text mb-8 leading-relaxed">
+            {t.subtitle}
           </p>
-          <button onClick={handleStart} className="flex items-center justify-center gap-2 w-full py-4 bg-[#1A365D] text-white rounded-xl font-bold text-lg hover:bg-[#102A4A] transition-colors shadow-lg hover:shadow-xl active:scale-95 duration-200">
-            <PlayCircle className="w-6 h-6" /> Start Quest
+          <button onClick={handleStart} className="flex items-center justify-center gap-2 w-full py-4 bg-accent-main text-accent-foreground rounded-xl font-bold text-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95 duration-200">
+            <PlayCircle className="w-6 h-6" /> {t.start_btn}
           </button>
         </motion.div>
       </div>
@@ -94,13 +105,13 @@ export const VoterQuest = () => {
   if (status === 'finished') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-[#1A365D]/10">
+        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-secondary-bg p-8 rounded-3xl shadow-xl max-w-md w-full border border-primary-border">
           <Trophy className="w-24 h-24 text-[#E47A2E] mx-auto mb-6 animate-bounce" />
-          <h2 className="text-4xl font-black text-[#1A365D] mb-2">Quest Complete!</h2>
-          <p className="text-[#1A365D]/70 mb-6 text-lg">Your Civic Score</p>
-          <div className="text-6xl font-black text-[#1A365D] mb-8">{score}</div>
-          <button onClick={handleStart} className="w-full py-4 bg-[#1A365D] text-white rounded-xl font-bold text-lg hover:bg-[#102A4A] transition-colors shadow-lg active:scale-95">
-            Play Again
+          <h2 className="text-4xl font-black text-primary-text mb-2">{t.quest_complete}</h2>
+          <p className="text-muted-text mb-6 text-lg">{t.your_score}</p>
+          <div className="text-6xl font-black text-primary-text mb-8">{score}</div>
+          <button onClick={handleStart} className="w-full py-4 bg-accent-main text-accent-foreground rounded-xl font-bold text-lg hover:opacity-90 transition-all shadow-lg active:scale-95">
+            {t.play_again}
           </button>
         </motion.div>
       </div>
@@ -110,22 +121,22 @@ export const VoterQuest = () => {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       {/* Top Bar: Stats */}
-      <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-2xl shadow-sm border border-[#1A365D]/10">
+      <div className="flex justify-between items-center mb-8 bg-secondary-bg p-4 rounded-2xl shadow-sm border border-primary-border">
         <div className="flex flex-col">
-          <span className="text-sm font-semibold text-[#1A365D]/50 uppercase tracking-wider">Score</span>
-          <span className="text-2xl font-black text-[#1A365D]">{score}</span>
+          <span className="text-sm font-semibold text-muted-text uppercase tracking-wider">{t.score}</span>
+          <span className="text-2xl font-black text-primary-text">{score}</span>
         </div>
         
         {/* Timer */}
         <div className="flex flex-col items-center">
-           <div className={`flex items-center gap-2 text-2xl font-black ${timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-[#1A365D]'}`}>
+           <div className={`flex items-center gap-2 text-2xl font-black ${timeLeft <= 5 ? 'text-red-500 animate-pulse' : 'text-primary-text'}`}>
              <Timer className="w-6 h-6" /> {timeLeft}s
            </div>
-           {timeLeft >= 10 && <span className="text-xs font-bold text-[#E47A2E]">2X POINTS ACTIVE</span>}
+           {timeLeft >= 10 && <span className="text-xs font-bold text-[#E47A2E] uppercase">{t.points_active}</span>}
         </div>
 
         <div className="flex flex-col items-end">
-          <span className="text-sm font-semibold text-[#1A365D]/50 uppercase tracking-wider">Streak</span>
+          <span className="text-sm font-semibold text-muted-text uppercase tracking-wider">{t.streak}</span>
           <div className="flex items-center gap-1 text-2xl font-black text-[#E47A2E]">
              <Zap className="w-6 h-6 fill-current" /> {streakMultiplier}x
           </div>
@@ -133,7 +144,7 @@ export const VoterQuest = () => {
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-[#1A365D]/10 rounded-full mb-12 overflow-hidden">
+      <div className="w-full h-2 bg-primary-border rounded-full mb-12 overflow-hidden">
         <motion.div 
            className="h-full bg-[#E47A2E]" 
            initial={{ width: 0 }}
@@ -149,18 +160,18 @@ export const VoterQuest = () => {
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.9, y: -20, opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="bg-white p-8 rounded-3xl shadow-xl border border-[#1A365D]/10"
+          className="bg-secondary-bg p-8 rounded-3xl shadow-xl border border-primary-border"
         >
-          <span className="inline-block px-3 py-1 bg-[#1A365D]/10 text-[#1A365D] rounded-lg text-sm font-bold mb-6">
-            Question {currentQuestionIndex + 1} of {questions.length}
+          <span className="inline-block px-3 py-1 bg-primary-bg text-primary-text rounded-lg text-sm font-bold mb-6 border border-primary-border">
+            {t.question} {currentQuestionIndex + 1} of {questions.length}
           </span>
-          <h3 className="text-2xl md:text-3xl font-bold text-[#1A365D] mb-8 leading-snug">
+          <h3 className="text-2xl md:text-3xl font-bold text-primary-text mb-8 leading-snug">
             {currentQ?.text}
           </h3>
 
           <div className="grid gap-4">
             {currentQ?.options.map((option, index) => {
-              let buttonStateClass = "bg-[#FDFBF7] hover:bg-[#1A365D]/5 border-[#1A365D]/20 text-[#1A365D]";
+              let buttonStateClass = "bg-primary-bg hover:bg-ashoka-blue-500/5 border-primary-border text-primary-text";
               
               if (isAnswering) {
                 if (index === currentQ.correctAnswer) {
@@ -168,7 +179,7 @@ export const VoterQuest = () => {
                 } else if (index === selectedAnswer) {
                   buttonStateClass = "bg-red-500 text-white border-red-600 opacity-50"; // Wrong highlight
                 } else {
-                  buttonStateClass = "bg-[#FDFBF7] opacity-50 border-[#1A365D]/20"; // Other
+                  buttonStateClass = "bg-primary-bg opacity-50 border-primary-border"; // Other
                 }
               }
 

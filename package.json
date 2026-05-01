@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/genai": "^1.51.0",
     "@tailwindcss/vite": "^4.2.4",
+    "axios": "^1.15.2",
     "canvas-confetti": "^1.9.4",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
