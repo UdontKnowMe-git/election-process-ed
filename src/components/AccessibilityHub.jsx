@@ -85,7 +85,11 @@ export const AccessibilityHub = () => {
         aria-label="Accessibility options menu"
         aria-expanded={isOpen}
         className={`flex items-center gap-2 p-2 rounded-xl transition-all border shadow-sm ${
-          isOpen ? 'bg-[#E47A2E] text-white border-[#E47A2E]' : 'bg-[#f3f4f6] text-primary-text border-[#d1d5db] hover:border-[#E47A2E]'
+          isOpen 
+            ? 'bg-[#E47A2E] text-black border-[#E47A2E]' 
+            : (theme === 'dark' || theme === 'high-contrast')
+              ? 'bg-[#1a1c23] text-[#E47A2E] border-white/10 hover:border-[#E47A2E]'
+              : 'bg-[#f3f4f6] text-primary-text border-[#d1d5db] hover:border-[#E47A2E]'
         }`}
       >
         <Accessibility className="w-5 h-5" />

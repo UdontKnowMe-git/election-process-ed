@@ -27,6 +27,13 @@ export const MythFlipCards = ({ onClose }) => {
 
   const currentMyth = myths[currentIndex];
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleSwipe = async (direction) => {
     const userThinksIsFact = direction === 'right';
     const isCorrect = userThinksIsFact === currentMyth.isFact;
@@ -91,15 +98,8 @@ export const MythFlipCards = ({ onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-primary-bg/95 backdrop-blur-3xl flex items-center justify-center p-6 overflow-hidden"
+      className="fixed inset-0 z-[100] bg-primary-bg/98 backdrop-blur-3xl flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden"
     >
-      <button
-        onClick={onClose}
-        className="absolute top-8 right-8 p-3 bg-secondary-bg border border-primary-border rounded-full hover:scale-110 transition-transform z-[120] shadow-lg"
-      >
-        <X className="w-8 h-8 text-primary-text" />
-      </button>
-
       {/* Fullscreen Flash Overlay */}
       <AnimatePresence>
         {flash && (
@@ -127,25 +127,35 @@ export const MythFlipCards = ({ onClose }) => {
         )}
       </AnimatePresence>
 
-      <div className="max-w-md w-full relative z-[105]">
+      <div className="absolute top-6 right-6 z-[120]">
+        <button
+          onClick={onClose}
+          className="p-4 bg-secondary-bg border-2 border-primary-border rounded-full hover:scale-110 active:scale-95 transition-all shadow-xl group"
+          aria-label="Close Game"
+        >
+          <X className="w-8 h-8 text-primary-text group-hover:rotate-90 transition-transform" />
+        </button>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center w-full max-w-2xl relative my-6">
         <AnimatePresence mode="wait">
           {isFinished ? (
             <motion.div
               key="results"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              className="bg-secondary-bg p-12 rounded-[3.5rem] border-2 border-primary-border text-center shadow-2xl"
+              className="bg-secondary-bg p-8 md:p-12 rounded-[3.5rem] border-2 border-primary-border text-center shadow-2xl w-full max-w-[min(380px,85vw)] mx-auto"
             >
-              <div className="w-24 h-24 bg-saffron-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
-                <CheckCircle2 className="w-12 h-12 text-saffron-500" />
+              <div className="w-20 h-20 bg-saffron-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-10 h-10 text-saffron-500" />
               </div>
-              <h2 className="text-4xl font-black text-primary-text mb-4">
+              <h2 className="text-3xl font-black text-primary-text mb-4">
                 <TranslatedText text="Mission Complete" />
               </h2>
-              <div className="text-6xl font-black text-saffron-500 mb-8">
-                {score} <span className="text-2xl text-muted-text">/ {myths.length}</span>
+              <div className="text-5xl font-black text-saffron-500 mb-8">
+                {score} <span className="text-xl text-muted-text">/ {myths.length}</span>
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <button onClick={restart} className="flex-1 py-4 bg-secondary-bg border-2 border-primary-border rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-primary-bg transition-all">
                   <RotateCcw className="w-5 h-5" /> <TranslatedText text="Retry" />
                 </button>
@@ -159,7 +169,7 @@ export const MythFlipCards = ({ onClose }) => {
               key="reveal"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className={`bg-secondary-bg p-10 rounded-[3.5rem] border-4 text-center shadow-2xl relative overflow-hidden
+              className={`bg-secondary-bg p-8 md:p-10 rounded-[3.5rem] border-4 text-center shadow-2xl relative overflow-hidden w-full max-w-[min(380px,85vw)] mx-auto
                 ${lastUserGuess ? 'border-india-green-500' : 'border-red-500'}`}
             >
               <div className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-6
@@ -167,7 +177,7 @@ export const MythFlipCards = ({ onClose }) => {
                 <TranslatedText text={lastUserGuess ? "You Got It Right" : "Not Quite Right"} />
               </div>
 
-              <p className="text-2xl font-bold text-primary-text leading-snug mb-8">
+              <p className="text-xl md:text-2xl font-bold text-primary-text leading-snug mb-8">
                 <TranslatedText text={currentMyth?.explanation} />
               </p>
 
@@ -179,85 +189,102 @@ export const MythFlipCards = ({ onClose }) => {
               </button>
             </motion.div>
           ) : (
-            <motion.div
-              key={currentIndex}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.9}
-              onDragEnd={(_, info) => {
-                if (info.offset.x > 150) handleSwipe('right');
-                else if (info.offset.x < -150) handleSwipe('left');
-              }}
-              animate={controls}
-              style={{ x, rotate, opacity }}
-              whileDrag={{ scale: 1.05, rotate: "5deg" }}
-              className="relative aspect-[4/5] w-full bg-secondary-bg border-4 border-primary-border rounded-[4rem] p-12 flex flex-col items-center justify-center text-center shadow-2xl cursor-grab active:cursor-grabbing group overflow-hidden"
-            >
-              {/* Swipe Hints Icons */}
-              <div className="absolute top-12 left-12 opacity-0 group-hover:opacity-20 transition-opacity">
-                <X className="w-12 h-12 text-red-500" />
-              </div>
-              <div className="absolute top-12 right-12 opacity-0 group-hover:opacity-20 transition-opacity">
-                <Check className="w-12 h-12 text-india-green-500" />
-              </div>
+            <div className="relative w-full h-[480px] md:h-[500px] max-w-[420px] mx-auto perspective-1000">
+              {/* Stack Background Cards */}
+              {myths.slice(currentIndex + 1, currentIndex + 3).map((myth, index) => (
+                <div
+                  key={`stack-${myth.id}`}
+                  className="absolute inset-0 bg-secondary-bg border-4 border-primary-border rounded-[3.5rem] shadow-xl"
+                  style={{
+                    transform: `translateY(${(index + 1) * 12}px) scale(${1 - (index + 1) * 0.04})`,
+                    zIndex: -index - 1,
+                    opacity: 0.5 / (index + 1)
+                  }}
+                />
+              ))}
 
-              <div className="w-24 h-24 bg-saffron-500/10 rounded-[2.5rem] flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                <HelpCircle className="w-12 h-12 text-saffron-500" />
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-sm font-black text-saffron-500 uppercase tracking-[0.4em]">
-                  <TranslatedText text="Trivia Card" /> {currentIndex + 1}
-                </h3>
-                <p className="text-2xl md:text-3xl font-black text-primary-text leading-[1.2]">
-                  "<TranslatedText text={currentMyth?.statement} />"
-                </p>
-              </div>
-
-              <div className="mt-auto space-y-6">
-                <div className="flex items-center gap-3 text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40">
-                  <div className="w-8 h-[1px] bg-muted-text/30" />
-                  <TranslatedText text="Swipe to Decide" />
-                  <div className="w-8 h-[1px] bg-muted-text/30" />
+              <motion.div
+                key={currentIndex}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.9}
+                onDragEnd={(_, info) => {
+                  if (info.offset.x > 150) handleSwipe('right');
+                  else if (info.offset.x < -150) handleSwipe('left');
+                }}
+                animate={controls}
+                style={{ x, rotate, opacity }}
+                whileDrag={{ scale: 1.05, rotate: "5deg" }}
+                className="absolute inset-0 bg-secondary-bg border-4 border-primary-border rounded-[3rem] md:rounded-[3.5rem] p-8 md:p-10 flex flex-col items-center justify-center text-center shadow-2xl cursor-grab active:cursor-grabbing group overflow-hidden"
+              >
+                {/* Swipe Hints Icons */}
+                <div className="absolute top-8 left-8 opacity-0 group-hover:opacity-20 transition-opacity">
+                  <X className="w-12 h-12 text-red-500" />
+                </div>
+                <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-20 transition-opacity">
+                  <Check className="w-12 h-12 text-india-green-500" />
                 </div>
 
-                <div className="flex justify-center gap-12">
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-10 h-10 border-2 border-red-500/30 rounded-full flex items-center justify-center text-red-500">
-                      <X className="w-5 h-5" />
-                    </div>
-                    <span className="text-[10px] font-bold text-red-500 tracking-tighter uppercase"><TranslatedText text="Myth" /></span>
+                <div className="w-20 h-20 bg-saffron-500/10 rounded-[2rem] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <HelpCircle className="w-10 h-10 text-saffron-500" />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black text-saffron-500 uppercase tracking-[0.4em]">
+                    <TranslatedText text="Trivia Card" /> {currentIndex + 1}
+                  </h3>
+                  <p className="text-xl md:text-2xl font-black text-primary-text leading-tight line-clamp-4">
+                    "<TranslatedText text={currentMyth?.statement} />"
+                  </p>
+                </div>
+
+                <div className="mt-auto w-full space-y-6">
+                  <div className="flex items-center gap-4 text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40">
+                    <div className="flex-1 h-[1px] bg-muted-text/30" />
+                    <TranslatedText text="Swipe to Decide" />
+                    <div className="flex-1 h-[1px] bg-muted-text/30" />
                   </div>
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-10 h-10 border-2 border-india-green-500/30 rounded-full flex items-center justify-center text-india-green-500">
-                      <Check className="w-5 h-5" />
+
+                  <div className="flex justify-center gap-10">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg border-b-4 border-red-800">
+                        <X className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-black text-red-600 tracking-widest uppercase bg-red-600/10 px-2.5 py-0.5 rounded-full"><TranslatedText text="Myth" /></span>
                     </div>
-                    <span className="text-[10px] font-bold text-india-green-500 tracking-tighter uppercase"><TranslatedText text="Fact" /></span>
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 bg-india-green-600 text-white rounded-full flex items-center justify-center shadow-lg border-b-4 border-india-green-800">
+                        <Check className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-black text-india-green-500 tracking-widest uppercase bg-india-green-600/10 px-2.5 py-0.5 rounded-full"><TranslatedText text="Fact" /></span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>
 
       {/* Progress Bar (Bottom) */}
-      {!isFinished && (
-        <div className="absolute bottom-12 w-full max-w-xs px-6">
-          <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-muted-text mb-3">
-            <TranslatedText text="Progress" />
-            <span className="text-primary-text">{currentIndex + 1} / {myths.length}</span>
+      <div className="w-full max-w-xs pb-4 md:pb-6">
+        {!isFinished && (
+          <div className="px-6">
+            <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-muted-text mb-2">
+              <TranslatedText text="Progress" />
+              <span className="text-primary-text">{currentIndex + 1} / {myths.length}</span>
+            </div>
+            <div className="h-1.5 w-full bg-primary-border rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-saffron-500"
+                initial={{ width: 0 }}
+                animate={{ width: `${((currentIndex + 1) / myths.length) * 100}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
           </div>
-          <div className="h-2 w-full bg-primary-border rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-saffron-500"
-              initial={{ width: 0 }}
-              animate={{ width: `${((currentIndex + 1) / myths.length) * 100}%` }}
-              transition={{ duration: 0.5 }}
-            />
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </motion.div>
   );
 };

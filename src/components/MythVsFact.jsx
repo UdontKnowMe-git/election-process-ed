@@ -11,6 +11,28 @@ const TranslatedText = ({ text, className }) => {
   return <span className={className}>{translatedText}</span>;
 };
 
+const ReadMoreText = ({ text, maxLength = 120 }) => {
+  const { translatedText } = useTranslation(text);
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  if (translatedText.length <= maxLength) return <span>{translatedText}</span>;
+
+  return (
+    <span>
+      {isExpanded ? translatedText : `${translatedText.slice(0, maxLength)}...`}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsExpanded(!isExpanded);
+        }}
+        className="ml-2 text-saffron-500 font-black hover:underline focus:outline-none text-sm"
+      >
+        {isExpanded ? 'Read Less' : 'Read More'}
+      </button>
+    </span>
+  );
+};
+
 const FlipCard = ({ myth }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const { reducedMotion } = useElectionStore();
@@ -18,7 +40,7 @@ const FlipCard = ({ myth }) => {
   return (
     <motion.div
       whileHover={reducedMotion ? {} : { y: -8, scale: 1.02 }}
-      className="perspective-1000 w-full h-80 cursor-pointer focus-within:ring-4 focus-within:ring-saffron-500 rounded-[2.5rem] outline-none group"
+      className="perspective-1000 w-[90%] sm:w-full mx-auto h-[420px] cursor-pointer focus-within:ring-4 focus-within:ring-saffron-500 rounded-[2.5rem] outline-none group relative z-10"
       onClick={() => setIsFlipped(!isFlipped)}
       onKeyDown={(e) => e.key === 'Enter' && setIsFlipped(!isFlipped)}
       tabIndex={0}
@@ -36,20 +58,20 @@ const FlipCard = ({ myth }) => {
         transition={reducedMotion ? { duration: 0.2 } : { type: "spring", stiffness: 260, damping: 20 }}
       >
         {/* Front Side (Myth) */}
-        <div className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-primary-border rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center z-20 overflow-hidden">
+        <div className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-primary-border rounded-[2.5rem] p-6 md:p-8 flex flex-col items-center justify-center text-center z-20 overflow-hidden shadow-xl">
           {/* Subtle Background Pattern */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#E47A2E_1px,transparent_1px)] [background-size:20px_20px]" />
 
-          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-[1.5rem] flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-500">
             <HelpCircle className="w-10 h-10" />
           </div>
 
-          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500 mb-4 opacity-70">
+          <h4 className="text-[10px] font-black uppercase tracking-[0.4em] bg-red-600 text-white px-3 py-1 rounded-full mb-4 shadow-md border-b-4 border-red-800">
             <TranslatedText text="Common Myth" />
           </h4>
 
-          <p className="text-xl md:text-2xl font-black text-primary-text leading-[1.2] mb-6 px-2">
-            "<TranslatedText text={myth.statement} />"
+          <p className="text-lg md:text-xl font-black text-primary-text leading-tight mb-6 px-2">
+            "<ReadMoreText text={myth.statement} maxLength={60} />"
           </p>
 
           <div className="mt-auto text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40 flex items-center gap-3">
@@ -61,21 +83,21 @@ const FlipCard = ({ myth }) => {
 
         {/* Back Side (Fact) */}
         <div
-          className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-india-green-500 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center rotate-y-180 z-10"
+          className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-india-green-500 rounded-[2.5rem] p-6 md:p-8 flex flex-col items-center justify-center text-center rotate-y-180 z-10 shadow-2xl"
         >
           {/* Subtle Background Pattern */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#2E8B57_1px,transparent_1px)] [background-size:20px_20px]" />
 
-          <div className="w-16 h-16 bg-india-green-500/10 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm">
+          <div className="w-16 h-16 bg-india-green-500/10 rounded-[1.5rem] flex items-center justify-center mb-4 shadow-sm">
             <CheckCircle2 className="w-10 h-10 text-india-green-500" />
           </div>
 
-          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-india-green-500 mb-4 opacity-70">
+          <h4 className="text-[10px] font-black uppercase tracking-[0.4em] bg-india-green-600 text-white px-3 py-1 rounded-full mb-4 shadow-md border-b-4 border-india-green-800">
             <TranslatedText text="Verified Fact" />
           </h4>
 
-          <p className="text-lg font-bold text-primary-text leading-relaxed px-2">
-            <TranslatedText text={myth.explanation} />
+          <p className="text-base md:text-lg font-bold text-primary-text leading-relaxed px-2">
+            <ReadMoreText text={myth.explanation} maxLength={80} />
           </p>
 
           <div className="mt-auto text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40">
@@ -92,7 +114,7 @@ export const MythVsFact = () => {
   const myths = mythData.myths || [];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-24 relative">
+    <div className="max-w-7xl mx-auto px-6 py-24 md:py-32 relative overflow-hidden">
       <div className="text-center mb-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -108,7 +130,7 @@ export const MythVsFact = () => {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14 perspective-1000">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 perspective-1000">
         {myths.map((myth) => (
           <FlipCard key={myth.id} myth={myth} />
         ))}

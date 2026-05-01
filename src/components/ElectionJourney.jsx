@@ -63,7 +63,7 @@ export const ElectionJourney = () => {
       <Navbar />
 
       {/* Main Content Area */}
-      <main className="pt-20 flex-1 w-full relative z-10">
+      <main className="pt-20 flex-1 w-full relative">
         {activeTab === 'timeline' && (
           <div className="animate-in fade-in zoom-in-95 duration-500 relative">
             {/* Removed the local absolute background to use the global fixed one */}
