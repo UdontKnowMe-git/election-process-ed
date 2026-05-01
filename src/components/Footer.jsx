@@ -154,8 +154,11 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-secondary-bg border-t border-primary-border py-16 px-6 mt-20">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+    <footer className="w-full bg-[#0f172a]/80 backdrop-blur-2xl border-t border-white/10 py-16 px-6 mt-20 relative z-10 overflow-hidden">
+      {/* Subtle Gradient Overlay for Texture */}
+      <div className="absolute inset-0 bg-gradient-to-br from-ashoka-blue-600/20 to-transparent pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start relative z-20">
 
         {/* Branding Section */}
         <div className="flex flex-col gap-4">
@@ -166,22 +169,22 @@ export const Footer = () => {
               className="indian-flag-logo flex-shrink-0"
             />
             <div className="min-w-0">
-              <h2 className="text-xl font-black text-primary-text truncate">
+              <h2 className="text-xl font-black text-white truncate">
                 <TranslatedText text="Democracy Journey" />
               </h2>
-              <p className="text-[9px] md:text-[10px] text-muted-text uppercase tracking-widest font-black whitespace-nowrap overflow-hidden text-ellipsis">
+              <p className="text-[9px] md:text-[10px] text-white/60 uppercase tracking-widest font-black whitespace-nowrap overflow-hidden text-ellipsis">
                 <TranslatedText text="A Civic Education Initiative" />
               </p>
             </div>
           </div>
-          <p className="text-sm text-muted-text leading-relaxed mt-2 max-w-xs">
+          <p className="text-sm text-white/70 leading-relaxed mt-2 max-w-xs">
             <TranslatedText text="Empowering citizens through interactive storytelling and verified electoral data." />
           </p>
           <a
             href="https://forms.gle/u1MfYuwSyoGc6igs7"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs font-black uppercase tracking-widest text-[#E47A2E] hover:underline mt-2 flex items-center gap-2"
+            className="text-xs font-black uppercase tracking-widest text-saffron-500 hover:underline mt-2 flex items-center gap-2"
           >
             <TranslatedText text="Report an Issue" />
             <ExternalLink size={10} />
@@ -190,10 +193,10 @@ export const Footer = () => {
 
         {/* Quick Links Section */}
         <div className="flex flex-col gap-4">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-primary-text opacity-50">
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40">
             <TranslatedText text="Explore" />
           </h3>
-          <nav className="flex flex-col gap-3 text-sm font-bold text-muted-text">
+          <nav className="flex flex-col gap-3 text-sm font-bold text-white/60">
             <button
               onClick={handleAboutClick}
               className="hover:text-saffron-500 transition-colors text-left flex items-center gap-2 group"
@@ -205,17 +208,17 @@ export const Footer = () => {
               href="https://voters.eci.gov.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-ashoka-blue-500 transition-colors text-left flex items-center gap-2 group"
+              className="hover:text-saffron-500 transition-colors text-left flex items-center gap-2 group"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-ashoka-blue-500 scale-0 group-hover:scale-100 transition-transform" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white scale-0 group-hover:scale-100 transition-transform" />
               <TranslatedText text="ECI Voter Guide" />
               <ExternalLink size={12} className="opacity-50" />
             </a>
             <button
               onClick={() => setIsContactOpen(true)}
-              className="hover:text-india-green-500 transition-colors text-left flex items-center gap-2 group"
+              className="hover:text-saffron-500 transition-colors text-left flex items-center gap-2 group"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-india-green-500 scale-0 group-hover:scale-100 transition-transform" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white scale-0 group-hover:scale-100 transition-transform" />
               <TranslatedText text="Contact Developer" />
             </button>
           </nav>
@@ -223,7 +226,7 @@ export const Footer = () => {
 
         {/* Socials Section */}
         <div className="flex flex-col gap-6">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-primary-text opacity-50">
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40">
             <TranslatedText text="Connect" />
           </h3>
           <div className="flex gap-4">
@@ -231,7 +234,7 @@ export const Footer = () => {
               href="https://github.com/UdontKnowMe-git"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-primary-bg border border-primary-border rounded-xl text-primary-text hover:bg-[#24292e] hover:text-white hover:border-[#24292e] transition-all shadow-sm group"
+              className="p-3 bg-white/5 border border-white/10 rounded-xl text-white hover:bg-white hover:text-black transition-all shadow-sm group"
               aria-label="GitHub"
             >
               <GithubIcon className="w-6 h-6 group-hover:scale-110 transition-transform" />
@@ -241,13 +244,13 @@ export const Footer = () => {
               href="https://www.linkedin.com/in/hariram-s-14a1l/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-primary-bg border border-primary-border rounded-xl text-primary-text hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] transition-all shadow-sm group"
+              className="p-3 bg-white/5 border border-white/10 rounded-xl text-white hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] transition-all shadow-sm group"
               aria-label="LinkedIn"
             >
               <LinkedinIcon className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </a>
           </div>
-          <div className="text-xs text-muted-text">
+          <div className="text-xs text-white/50">
             <p>© 2024 Democracy Journey.</p>
             <p className="opacity-50 mt-1"><TranslatedText text="Built with transparency and civic pride." /></p>
           </div>

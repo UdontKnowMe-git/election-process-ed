@@ -156,14 +156,18 @@ export const AccessibilityHub = () => {
                     <button
                       key={lang.id}
                       onClick={() => handleLanguageChange(lang.id)}
-                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all border mb-1 ${
                         language === lang.id 
-                          ? 'bg-[#E47A2E] text-white font-bold shadow-md' 
-                          : 'text-primary-text bg-gray-100 border border-[#d1d5db] hover:border-[#E47A2E] mb-1'
+                          ? 'bg-[#E47A2E] text-white font-bold shadow-md border-[#E47A2E]' 
+                          : theme === 'high-contrast'
+                            ? 'border-2 border-[#FFFF00] bg-black text-[#FFFF00] font-black'
+                            : theme === 'dark'
+                              ? 'text-[#E47A2E] bg-[#1a1c23] border-white/10 hover:border-[#E47A2E]'
+                              : 'text-[#E47A2E] bg-white border-gray-200 hover:border-[#E47A2E]'
                       }`}
                     >
                       {lang.label}
-                      {language === lang.id && <Check className="w-4 h-4 text-white" />}
+                      {language === lang.id && <Check className={`w-4 h-4 ${theme === 'high-contrast' ? 'text-[#FFFF00]' : 'text-white'}`} />}
                     </button>
                   ))}
                 </div>

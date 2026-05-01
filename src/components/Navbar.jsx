@@ -67,6 +67,7 @@ const ProgressRing = () => {
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showVoterQuestBadge, setShowVoterQuestBadge] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const { activeTab, setActiveTab } = useElectionStore();
 
@@ -79,6 +80,8 @@ export const Navbar = () => {
     setSearchQuery('');
   };
 
+  const dismissBadge = () => setShowVoterQuestBadge(false);
+
   const navLinks = [
     { id: 'timeline', label: "Timeline" },
     { id: 'voter-quest', label: "Voter Quest" },
@@ -87,7 +90,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-6 py-4 bg-primary-bg/90 backdrop-blur-lg border-b border-primary-border shadow-sm transition-colors duration-300">
+    <header className="fixed top-0 left-0 w-full z-50 px-8 py-4 bg-primary-bg/90 backdrop-blur-lg border-b border-primary-border shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
@@ -123,9 +126,12 @@ export const Navbar = () => {
               {navLinks.map((link) => {
                 const isActive = activeTab === link.id;
                 return (
-                  <li key={link.id}>
+                  <li key={link.id} className="relative">
                     <button
-                      onClick={() => setActiveTab(link.id)}
+                      onClick={() => {
+                        setActiveTab(link.id);
+                        if (link.id === 'voter-quest') dismissBadge();
+                      }}
                       className={`text-sm font-semibold transition-colors duration-300 py-1 ${isActive
                         ? 'text-[#E47A2E] border-b-2 border-[#E47A2E]'
                         : 'text-muted-text hover:text-primary-text'
@@ -134,6 +140,22 @@ export const Navbar = () => {
                     >
                       <TranslatedText text={link.label} />
                     </button>
+                    {link.id === 'voter-quest' && showVoterQuestBadge && activeTab !== 'voter-quest' && (
+                      <div 
+                        className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap animate-pulse-soft cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveTab('voter-quest');
+                          dismissBadge();
+                        }}
+                      >
+                        <div className="bg-[#E47A2E] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1 border border-white/20">
+                          <TranslatedText text="Try Voter Quest here!" />
+                          <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+                        </div>
+                        <div className="w-2 h-2 bg-[#E47A2E] rotate-45 mx-auto -mt-1 border-r border-b border-white/20" />
+                      </div>
+                    )}
                   </li>
                 );
               })}
@@ -154,13 +176,40 @@ export const Navbar = () => {
           <ProgressRing />
           <AccessibilityHub />
           <button
-            className="text-primary-text p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`text-primary-text p-2 rounded-lg transition-all ${
+              !isMobileMenuOpen && showVoterQuestBadge && activeTab !== 'voter-quest'
+                ? 'ring-2 ring-[#E47A2E] animate-pulse shadow-[0_0_15px_rgba(228,122,46,0.4)]'
+                : ''
+            }`}
+            onClick={() => {
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+              if (!isMobileMenuOpen) dismissBadge();
+            }}
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+      </div>
+
+      {/* Global Mobile Floating Badge */}
+      <div className="md:hidden">
+        {showVoterQuestBadge && activeTab !== 'voter-quest' && (
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="fixed bottom-12 left-10 z-50 animate-pulse-soft cursor-pointer"
+            onClick={() => {
+              setActiveTab('voter-quest');
+              dismissBadge();
+            }}
+          >
+            <div className="bg-[#E47A2E] text-white text-xs font-bold px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 border border-white/20">
+              <TranslatedText text="Try Voter Quest here!" />
+              <div className="w-2 h-2 bg-white rounded-full animate-ping" />
+            </div>
+          </motion.div>
+        )}
       </div>
 
       {/* Mobile Navigation Dropdown */}
@@ -175,6 +224,7 @@ export const Navbar = () => {
                     onClick={() => {
                       setActiveTab(link.id);
                       setIsMobileMenuOpen(false);
+                      if (link.id === 'voter-quest') dismissBadge();
                     }}
                     className={`text-base font-semibold w-full text-left ${isActive ? 'text-[#E47A2E]' : 'text-muted-text'
                       }`}
