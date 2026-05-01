@@ -1,39 +1,43 @@
-import { useState } from 'react';
-import { sendMessageToGemini } from '../services/gemini';
+import { useState, useCallback } from 'react';
+import { getGeminiResponse } from '../services/gemini';
 
 export const useGemini = () => {
   const [messages, setMessages] = useState([
     {
-      role: 'ai',
-      content: "Hello! I am your Civic Guru. I'm here to answer any questions you have about the Indian electoral process, voting rights, or democracy. How can I help you today?",
+      role: 'bot',
+      content: "Namaste! I am your Civic Guru. I can help you understand the election process, how to register, or explain how EVMs work. What's on your mind?"
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendMessage = async (text) => {
-    if (!text.trim()) return;
+  const sendMessage = useCallback(async (content) => {
+    if (!content.trim() || isLoading) return;
 
-    // Add user message to state immediately
-    const userMessage = { role: 'user', content: text };
-    setMessages((prev) => [...prev, userMessage]);
-    setIsLoading(true);
     setError(null);
+    setIsLoading(true);
+
+    // 1. Snapshot the current messages for the API history
+    const historySnapshot = [...messages];
+
+    // 2. Add user message to UI immediately
+    const userMessage = { role: 'user', content };
+    setMessages((prev) => [...prev, userMessage]);
 
     try {
-      // Call the API service (passing the history BEFORE the new message)
-      const responseText = await sendMessageToGemini(messages, text);
-      
-      // Add AI response to state
-      setMessages((prev) => [...prev, { role: 'ai', content: responseText }]);
+      // 3. Get response using the snapshot (so the new user message isn't duplicated in history)
+      const botResponseText = await getGeminiResponse(historySnapshot, content);
+
+      // 4. Add bot response to UI
+      setMessages((prev) => [...prev, { role: 'bot', content: botResponseText }]);
     } catch (err) {
-      setError(err.message);
-      // Optional: Add a system message indicating failure
-      setMessages((prev) => [...prev, { role: 'ai', content: "I'm having trouble connecting to my knowledge base right now. Please try again later." }]);
+      setError(err.message || "Something went wrong.");
+      // Optional: Remove the last user message if the API failed
+      // setMessages((prev) => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [messages, isLoading]);
 
   return {
     messages,

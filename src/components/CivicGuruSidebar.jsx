@@ -14,7 +14,7 @@ export const CivicGuruSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
-  
+
   const { messages, isLoading, error, sendMessage } = useGemini();
 
   // Auto-scroll to bottom of messages
@@ -97,7 +97,7 @@ export const CivicGuruSidebar = () => {
                   </span>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-[#FDFBF7]/10 rounded-full transition-colors"
                 aria-label="Close Chat"
@@ -115,27 +115,25 @@ export const CivicGuruSidebar = () => {
             )}
 
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 styled-scrollbar">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 styled-scrollbar relative">
               {messages.map((msg, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    
+
                     {/* Avatar */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                      msg.role === 'user' ? 'bg-[#E47A2E]' : 'bg-[#1A365D]'
-                    }`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${msg.role === 'user' ? 'bg-[#E47A2E]' : 'bg-[#1A365D]'
+                      }`}>
                       {msg.role === 'user' ? <User className="w-5 h-5 text-white" /> : <Bot className="w-5 h-5 text-white" />}
                     </div>
 
                     {/* Message Bubble */}
-                    <div className={`p-3 rounded-2xl text-sm leading-relaxed ${
-                      msg.role === 'user' 
-                        ? 'bg-[#1A365D] text-white rounded-tr-none' 
-                        : 'bg-white text-[#1A365D] border border-[#1A365D]/10 rounded-tl-none shadow-sm'
-                    }`}>
+                    <div className={`p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
+                      ? 'bg-[#1A365D] text-white rounded-tr-none'
+                      : 'bg-white text-[#1A365D] border border-[#1A365D]/10 rounded-tl-none shadow-sm'
+                      }`}>
                       {msg.content}
                     </div>
                   </div>
@@ -162,7 +160,7 @@ export const CivicGuruSidebar = () => {
 
             {/* Input Area */}
             <div className="p-4 bg-white border-t border-[#1A365D]/10">
-              
+
               {/* Quick Asks (Only show if not loading and user hasn't typed much) */}
               {messages.length < 3 && !isLoading && (
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -209,7 +207,8 @@ export const CivicGuruSidebar = () => {
         )}
       </AnimatePresence>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .styled-scrollbar::-webkit-scrollbar {
           width: 6px;
         }
