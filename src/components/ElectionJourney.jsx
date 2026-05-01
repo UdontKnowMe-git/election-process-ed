@@ -7,6 +7,7 @@ import { LatestNews } from './LatestNews';
 import { VoterPledge } from './VoterPledge';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { PoliticalInfo } from './PoliticalInfo';
 import { useElectionStore } from '../store/useElectionStore';
 import { useTranslation } from '../hooks/useTranslation';
 
@@ -125,6 +126,12 @@ export const ElectionJourney = () => {
           </div>
         )}
 
+        {activeTab === 'rep-finder' && (
+          <div className="animate-in fade-in duration-500">
+            <PoliticalInfo />
+          </div>
+        )}
+        
         {activeTab === 'latest-news' && (
           <div className="animate-in fade-in duration-500">
             <LatestNews />

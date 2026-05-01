@@ -86,6 +86,7 @@ export const Navbar = () => {
     { id: 'timeline', label: "Timeline" },
     { id: 'voter-quest', label: "Voter Quest" },
     { id: 'myth-vs-fact', label: "Myth vs. Fact" },
+    { id: 'rep-finder', label: "Political Info" },
     { id: 'latest-news', label: "Latest News" },
   ];
 
