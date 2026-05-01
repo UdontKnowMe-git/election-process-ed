@@ -162,7 +162,7 @@ export const Footer = () => {
           <div className="flex items-center gap-4">
             <img
               src="/flag.svg"
-              alt="India Flag"
+              alt="Official Flag of India - Democracy Journey Logo"
               className="indian-flag-logo flex-shrink-0"
             />
             <div className="min-w-0">
@@ -177,6 +177,15 @@ export const Footer = () => {
           <p className="text-sm text-muted-text leading-relaxed mt-2 max-w-xs">
             <TranslatedText text="Empowering citizens through interactive storytelling and verified electoral data." />
           </p>
+          <a
+            href="https://forms.gle/u1MfYuwSyoGc6igs7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-black uppercase tracking-widest text-[#E47A2E] hover:underline mt-2 flex items-center gap-2"
+          >
+            <TranslatedText text="Report an Issue" />
+            <ExternalLink size={10} />
+          </a>
         </div>
 
         {/* Quick Links Section */}

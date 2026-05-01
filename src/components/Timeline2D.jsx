@@ -54,6 +54,7 @@ const TimelineItem = ({ data, index, totalItems }) => {
           <img
             src={data.imageUrl}
             alt={data.title}
+            loading="lazy"
             className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out"
           />
         </div>

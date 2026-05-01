@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Flag, Award } from 'lucide-react';
+import { Menu, X, Flag, Award, Search } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
 import { AccessibilityHub } from './AccessibilityHub';
 import { useTranslation } from '../hooks/useTranslation';
@@ -67,7 +67,17 @@ const ProgressRing = () => {
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { activeTab, setActiveTab } = useElectionStore();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    const siteFilter = "site:voters.eci.gov.in OR site:eci.gov.in";
+    const url = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)} ${encodeURIComponent(siteFilter)}`;
+    window.open(url, '_blank');
+    setSearchQuery('');
+  };
 
   const navLinks = [
     { id: 'timeline', label: "Timeline" },
@@ -83,12 +93,27 @@ export const Navbar = () => {
         <div className="flex items-center gap-3">
           <img
             src="/flag.svg"
-            alt="India Flag"
+            alt="Official Flag of India - Democracy Journey Logo"
             className="indian-flag-logo"
           />
           <h1 className="text-xl md:text-2xl font-black tracking-tight text-primary-text">
             <TranslatedText text="Democracy Journey" />
           </h1>
+        </div>
+
+        {/* Search Bar */}
+        <div className="hidden lg:flex flex-1 max-w-md mx-8">
+          <form onSubmit={handleSearch} className="relative w-full group">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search official ECI data..."
+              aria-label="Search official ECI data"
+              className="w-full bg-secondary-bg/50 border border-primary-border rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#E47A2E] focus:border-transparent transition-all"
+            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-text group-focus-within:text-[#E47A2E] transition-colors" />
+          </form>
         </div>
 
         {/* Desktop Navigation */}

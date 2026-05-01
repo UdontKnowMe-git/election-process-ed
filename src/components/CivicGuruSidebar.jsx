@@ -58,7 +58,7 @@ export const CivicGuruSidebar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleSidebar}
-            className="fixed bottom-6 right-6 w-14 h-14 bg-[#1A365D] text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:bg-[#102A4A] transition-colors border-2 border-[#E47A2E]"
+            className="fixed bottom-10 right-6 w-14 h-14 bg-[#1A365D] text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:bg-[#102A4A] transition-colors border-2 border-[#E47A2E]"
             aria-label="Open Civic Guru Chat"
           >
             <MessageCircle className="w-6 h-6 text-[#E47A2E]" />
@@ -178,6 +178,7 @@ export const CivicGuruSidebar = () => {
                     <button
                       key={idx}
                       onClick={() => handleQuickAsk(ask)}
+                      aria-label={`Ask Civic Guru: ${ask}`}
                       className="text-xs bg-primary-bg hover:bg-ashoka-blue-500/10 text-primary-text py-1.5 px-3 rounded-full transition-colors border border-primary-border"
                     >
                       {ask}
@@ -204,6 +205,7 @@ export const CivicGuruSidebar = () => {
                 <button
                   type="submit"
                   disabled={!inputValue.trim() || isLoading}
+                  aria-label="Send Message to Civic Guru"
                   className="p-3 bg-[#E47A2E] text-white rounded-xl hover:bg-[#d66a1e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 shadow-lg"
                 >
                   {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}

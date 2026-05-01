@@ -12,6 +12,7 @@ export const useElectionStore = create(
       dyslexiaFont: false,
       reducedMotion: false,
       enhancedFocus: false,
+      textScale: false, // Large Text Toggle
       language: 'en', // 'en', 'hi', 'ta', 'te', 'ml', 'gu'
 
       // Progress States (Gamification)
@@ -38,6 +39,7 @@ export const useElectionStore = create(
       setDyslexiaFont: (val) => set({ dyslexiaFont: val }),
       setReducedMotion: (val) => set({ reducedMotion: val }),
       setEnhancedFocus: (val) => set({ enhancedFocus: val }),
+      setTextScale: (val) => set({ textScale: val }),
       setLanguage: (lang) => set({ language: lang }),
 
       // Progress Actions

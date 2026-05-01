@@ -92,6 +92,19 @@
     z-index: 9999 !important;
   }
 
+  body.text-scale-large {
+    font-size: 1.15rem !important;
+    line-height: 1.7 !important;
+  }
+
+  body.text-scale-large .text-sm {
+    font-size: 0.95rem !important;
+  }
+
+  body.text-scale-large .text-xs {
+    font-size: 0.85rem !important;
+  }
+
   * {
     border-color: var(--border-color);
   }

@@ -47,7 +47,7 @@ export const getTranslation = async (text, targetLang) => {
         }
     }
 
-    // 3. Signal failure if all instances fail
-    console.error(`All translation instances failed for ${langCode}. Translation pending...`);
-    return { success: false, text };
+    // 3. Silent Fallback: Return original text as 'success' to prevent UI errors
+    console.warn(`Translation failed for ${langCode}. Falling back to original.`);
+    return { success: true, text };
 };

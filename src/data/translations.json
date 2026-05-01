@@ -12,6 +12,7 @@
       "dyslexia_font": "Dyslexia Font",
       "reduced_motion": "Reduced Motion",
       "enhanced_focus": "Enhanced Focus",
+      "text_scaling": "Large Text",
       "translation": "Translation",
       "motto": "Making democracy accessible for everyone."
     },
@@ -56,6 +57,7 @@
       "dyslexia_font": "डिस्लेक्सिया फ़ॉन्ट",
       "reduced_motion": "कम गति",
       "enhanced_focus": "बेहतर फोकस",
+      "text_scaling": "बड़ा टेक्स्ट",
       "translation": "अनुवाद",
       "motto": "लोकतंत्र को सभी के लिए सुलभ बनाना।"
     },

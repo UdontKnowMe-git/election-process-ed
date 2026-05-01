@@ -10,7 +10,8 @@ import {
   Sun, 
   Moon, 
   Eye,
-  Check
+  Check,
+  Maximize2
 } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
 import translations from '../data/translations.json';
@@ -56,6 +57,7 @@ export const AccessibilityHub = () => {
     dyslexiaFont, setDyslexiaFont,
     reducedMotion, setReducedMotion,
     enhancedFocus, setEnhancedFocus,
+    textScale, setTextScale,
     language, setLanguage
   } = useElectionStore();
 
@@ -135,6 +137,12 @@ export const AccessibilityHub = () => {
                 icon={Focus} 
                 enabled={enhancedFocus} 
                 onChange={setEnhancedFocus} 
+              />
+              <Toggle 
+                label={t.text_scaling} 
+                icon={Maximize2} 
+                enabled={textScale} 
+                onChange={setTextScale} 
               />
 
               {/* Language Selection */}

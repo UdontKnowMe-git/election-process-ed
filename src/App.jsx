@@ -11,6 +11,7 @@ function App() {
     dyslexiaFont, 
     reducedMotion, 
     enhancedFocus,
+    textScale,
     language 
   } = useElectionStore();
 
@@ -42,10 +43,16 @@ function App() {
       document.body.classList.remove('enhanced-focus');
     }
 
+    if (textScale) {
+      document.body.classList.add('text-scale-large');
+    } else {
+      document.body.classList.remove('text-scale-large');
+    }
+
     // Language attribute
     document.documentElement.setAttribute('lang', language);
 
-  }, [theme, dyslexiaFont, reducedMotion, enhancedFocus, language]);
+  }, [theme, dyslexiaFont, reducedMotion, enhancedFocus, textScale, language]);
 
   return (
     <div className="flex min-h-screen bg-primary-bg transition-colors duration-300">

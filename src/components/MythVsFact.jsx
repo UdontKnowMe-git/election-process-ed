@@ -119,8 +119,8 @@ export const MythVsFact = () => {
         whileHover={{ scale: 1.1, rotate: "5deg" }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsGameOpen(true)}
-        className="fixed bottom-10 left-10 p-6 bg-saffron-500 text-white rounded-[2rem] shadow-[0_20px_50px_rgba(228,122,46,0.4)] z-50 flex items-center gap-4 border-2 border-white/20 hover:bg-saffron-600 transition-colors group"
-        aria-label="Launch Trivia Quest"
+        className="fixed bottom-12 left-10 p-6 bg-saffron-500 text-white rounded-[2rem] shadow-[0_20px_50px_rgba(228,122,46,0.4)] z-50 flex items-center gap-4 border-2 border-white/20 hover:bg-saffron-600 transition-colors group"
+        aria-label="Launch Interactive Trivia Quest"
       >
         <Gamepad2 className="w-8 h-8 group-hover:animate-bounce" />
         <div className="flex flex-col items-start leading-none hidden md:flex">

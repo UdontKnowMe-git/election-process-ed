@@ -31,7 +31,6 @@ export const useTranslation = (text) => {
           if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
         } else {
           // Persistence Mode: If it fails, retry in 3 seconds
-          console.log(`Retrying translation for: "${text.substring(0, 20)}..." in 3s`);
           retryTimerRef.current = setTimeout(translate, 3000);
         }
       } catch (error) {
