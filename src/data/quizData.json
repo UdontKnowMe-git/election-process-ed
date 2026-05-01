@@ -3,151 +3,276 @@
     {
       "id": 1,
       "text": "What is the minimum age for a citizen to vote in India?",
-      "options": ["16 years", "18 years", "21 years", "25 years"],
+      "options": [
+        "16 years",
+        "18 years",
+        "21 years",
+        "25 years"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 2,
       "text": "Which body is responsible for conducting elections in India?",
-      "options": ["Supreme Court", "Parliament", "Election Commission of India", "NITI Aayog"],
+      "options": [
+        "Supreme Court",
+        "Parliament",
+        "Election Commission of India",
+        "NITI Aayog"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 3,
       "text": "What is the term of the Lok Sabha?",
-      "options": ["4 years", "5 years", "6 years", "Infinite"],
+      "options": [
+        "4 years",
+        "5 years",
+        "6 years",
+        "Infinite"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 4,
       "text": "Who appoints the Chief Election Commissioner of India?",
-      "options": ["Prime Minister", "President", "Chief Justice", "Speaker of Lok Sabha"],
+      "options": [
+        "Prime Minister",
+        "President",
+        "Chief Justice",
+        "Speaker of Lok Sabha"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 5,
       "text": "What does EVM stand for in the context of elections?",
-      "options": ["Electronic Voter Machine", "Electronic Voting Machine", "Electric Voting Method", "Every Vote Matters"],
+      "options": [
+        "Electronic Voter Machine",
+        "Electronic Voting Machine",
+        "Electric Voting Method",
+        "Every Vote Matters"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 6,
       "text": "In which year were the first general elections held in India?",
-      "options": ["1947", "1950", "1951-52", "1955"],
+      "options": [
+        "1947",
+        "1950",
+        "1951-52",
+        "1955"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 7,
       "text": "Which article of the Indian Constitution provides for an Election Commission?",
-      "options": ["Article 324", "Article 370", "Article 356", "Article 280"],
+      "options": [
+        "Article 324",
+        "Article 370",
+        "Article 356",
+        "Article 280"
+      ],
       "correctAnswer": 0
     },
     {
       "id": 8,
       "text": "What is the maximum number of members in the Lok Sabha?",
-      "options": ["500", "545", "550", "250"],
+      "options": [
+        "500",
+        "545",
+        "552",
+        "250"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 9,
       "text": "What is the color of the ink used on a voter's finger?",
-      "options": ["Blue", "Purple", "Silver-based Indelible Ink", "Red"],
+      "options": [
+        "Blue",
+        "Purple",
+        "Silver-based Indelible Ink",
+        "Red"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 10,
       "text": "What is 'NOTA' on a ballot paper?",
-      "options": ["None of the Above", "Note the Applicant", "No Other Trustworthy Ally", "Notice of Termination"],
+      "options": [
+        "None of the Above",
+        "Note the Applicant",
+        "No Other Trustworthy Ally",
+        "Notice of Termination"
+      ],
       "correctAnswer": 0
     },
     {
       "id": 11,
       "text": "Which state has the maximum number of Lok Sabha seats?",
-      "options": ["Maharashtra", "West Bengal", "Uttar Pradesh", "Bihar"],
+      "options": [
+        "Maharashtra",
+        "West Bengal",
+        "Uttar Pradesh",
+        "Bihar"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 12,
       "text": "Who is the first Chief Election Commissioner of India?",
-      "options": ["Sukumar Sen", "T.N. Seshan", "Kalyan Sundaram", "S.Y. Quraishi"],
+      "options": [
+        "Sukumar Sen",
+        "T.N. Seshan",
+        "Kalyan Sundaram",
+        "S.Y. Quraishi"
+      ],
       "correctAnswer": 0
     },
     {
       "id": 13,
       "text": "What is the primary document required to cast a vote in India?",
-      "options": ["Aadhar Card", "Voter ID (EPIC)", "PAN Card", "Passport"],
+      "options": [
+        "Aadhar Card",
+        "Voter ID (EPIC)",
+        "PAN Card",
+        "Passport"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 14,
       "text": "Which system of election is followed for Lok Sabha in India?",
-      "options": ["Proportional Representation", "First-Past-The-Post", "Single Transferable Vote", "Direct Democracy"],
+      "options": [
+        "Proportional Representation",
+        "First-Past-The-Post",
+        "Single Transferable Vote",
+        "Direct Democracy"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 15,
       "text": "What is the full form of VVPAT?",
-      "options": ["Voter Verified Paper Audit Trail", "Voter Verified Paper Account Trail", "Verified Voter Paper Audit Track", "Voter Validation Paper Audit Trail"],
+      "options": [
+        "Voter Verified Paper Audit Trail",
+        "Voter Verified Paper Account Trail",
+        "Verified Voter Paper Audit Track",
+        "Voter Validation Paper Audit Trail"
+      ],
       "correctAnswer": 0
     },
     {
       "id": 16,
       "text": "How many constituencies are there in India for Lok Sabha elections?",
-      "options": ["543", "545", "552", "500"],
+      "options": [
+        "543",
+        "545",
+        "552",
+        "500"
+      ],
       "correctAnswer": 0
     },
     {
       "id": 17,
       "text": "What is the 'Model Code of Conduct'?",
-      "options": ["A set of laws", "A set of guidelines for political parties", "A secret code", "A voting procedure"],
+      "options": [
+        "A set of laws",
+        "A set of guidelines for political parties",
+        "A secret code",
+        "A voting procedure"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 18,
       "text": "Who is known for bringing major reforms to the Election Commission in the 1990s?",
-      "options": ["Naveen Chawla", "T.N. Seshan", "H.S. Brahma", "Nasim Zaidi"],
+      "options": [
+        "Naveen Chawla",
+        "T.N. Seshan",
+        "H.S. Brahma",
+        "Nasim Zaidi"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 19,
       "text": "Which constitutional amendment reduced the voting age from 21 to 18?",
-      "options": ["42nd Amendment", "44th Amendment", "61st Amendment", "73rd Amendment"],
+      "options": [
+        "42nd Amendment",
+        "44th Amendment",
+        "61st Amendment",
+        "73rd Amendment"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 20,
       "text": "What is the symbol of the Election Commission of India?",
-      "options": ["A Pen", "A Ballot Box", "Ashoka Chakra", "A stylized hand"],
+      "options": [
+        "A Pen",
+        "A Ballot Box",
+        "Ashoka Chakra",
+        "A stylized hand"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 21,
       "text": "Which of the following is NOT a National Party in India?",
-      "options": ["BJP", "INC", "AAP", "A local sports club"],
+      "options": [
+        "BJP",
+        "INC",
+        "AAP",
+        "A local sports club"
+      ],
       "correctAnswer": 3
     },
     {
       "id": 22,
       "text": "Where is the headquarters of the Election Commission of India located?",
-      "options": ["Mumbai", "Kolkata", "New Delhi", "Chennai"],
+      "options": [
+        "Mumbai",
+        "Kolkata",
+        "New Delhi",
+        "Chennai"
+      ],
       "correctAnswer": 2
     },
     {
       "id": 23,
       "text": "How long is the campaign period allowed after the notification of elections?",
-      "options": ["1 week", "2 weeks", "1 month", "2 months"],
+      "options": [
+        "1 week",
+        "2 weeks",
+        "1 month",
+        "2 months"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 24,
       "text": "Which group of people can use Postal Ballots in India?",
-      "options": ["All citizens", "Service voters (Armed forces)", "Children", "NRIs only"],
+      "options": [
+        "All citizens",
+        "Service voters (Armed forces)",
+        "Children",
+        "NRIs only"
+      ],
       "correctAnswer": 1
     },
     {
       "id": 25,
       "text": "What is the maximum limit of election expenditure for a Lok Sabha candidate (as of 2024)?",
-      "options": ["10 Lakhs", "50 Lakhs", "95 Lakhs", "5 Crores"],
+      "options": [
+        "10 Lakhs",
+        "50 Lakhs",
+        "95 Lakhs",
+        "5 Crores"
+      ],
       "correctAnswer": 2
     }
   ],
@@ -181,6 +306,12 @@
       "statement": "The Election Commission can disqualify a candidate for MCC violations.",
       "isFact": true,
       "explanation": "Fact: The ECI has the power to bar candidates from campaigning or even disqualify them in extreme cases."
+    },
+    {
+      "id": 6,
+      "statement": "If NOTA gets the most votes, the election is canceled.",
+      "isFact": false,
+      "explanation": "Fact: Currently in India, even if NOTA receives the highest number of votes, the candidate with the next highest votes is declared the winner."
     }
   ]
 }

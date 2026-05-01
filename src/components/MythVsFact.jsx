@@ -1,218 +1,150 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
-import quizData from '../data/quizData.json';
-import { Check, X as XIcon, RotateCcw } from 'lucide-react';
-import { useElectionStore } from '../store/useElectionStore';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import mythData from '../data/mythData.json';
 import { useTranslation } from '../hooks/useTranslation';
+import { HelpCircle, CheckCircle2, AlertCircle, Gamepad2 } from 'lucide-react';
+import { MythFlipCards } from './MythFlipCards';
+import { useElectionStore } from '../store/useElectionStore';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
   return <span className={className}>{translatedText}</span>;
 };
 
-export const MythVsFact = () => {
-  const { theme, language } = useElectionStore();
-  const [myths] = useState(quizData.myths || []);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [results, setResults] = useState([]);
-  const [isFinished, setIsFinished] = useState(false);
-
-  const activeCard = myths[currentIndex];
-  const nextCard = myths[currentIndex + 1];
-
-  const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-15, 15]);
-  const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0]);
-  
-  const backgroundColor = useTransform(
-    x,
-    [-150, 0, 150],
-    theme === 'dark' 
-      ? ['#450a0a', 'var(--bg-secondary)', '#064e3b'] 
-      : theme === 'high-contrast'
-        ? ['#000000', '#000000', '#000000']
-        : ['#fee2e2', '#ffffff', '#dcfce7']
-  );
-  
-  const borderColor = useTransform(
-    x,
-    [-150, 0, 150],
-    theme === 'high-contrast'
-      ? ['#FFFF00', '#FFFF00', '#FFFF00']
-      : ['#f87171', 'var(--border-color)', '#4ade80']
-  );
-
-  const mythOpacity = useTransform(x, [-100, -50], [1, 0]);
-  const factOpacity = useTransform(x, [50, 100], [0, 1]);
-
-  const handleSwipe = (userThinksIsFact) => {
-    if (!activeCard) return;
-    const isCorrect = userThinksIsFact === activeCard.isFact;
-    setResults(prev => [...prev, { ...activeCard, userCorrect: isCorrect }]);
-
-    if (currentIndex < myths.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      setIsFinished(true);
-    }
-  };
-
-  const handleDragEnd = async (event, info) => {
-    const threshold = 150;
-    if (info.offset.x > threshold) {
-      await animate(x, 500, { duration: 0.2 });
-      handleSwipe(true);
-      x.set(0);
-    } else if (info.offset.x < -threshold) {
-      await animate(x, -500, { duration: 0.2 });
-      handleSwipe(false);
-      x.set(0);
-    } else {
-      animate(x, 0, { type: 'spring', stiffness: 300, damping: 20 });
-    }
-  };
-
-  useEffect(() => {
-    const handleKeyDown = async (e) => {
-      if (isFinished || myths.length === 0) return;
-      if (x.get() !== 0) return;
-
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-        await animate(x, 500, { duration: 0.2 });
-        handleSwipe(true);
-        x.set(0);
-      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-        await animate(x, -500, { duration: 0.2 });
-        handleSwipe(false);
-        x.set(0);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, isFinished, x, myths]);
-
-  const restart = () => {
-    setCurrentIndex(0);
-    setResults([]);
-    setIsFinished(false);
-    x.set(0);
-  };
-
-  if (myths.length === 0) {
-    return <div className="p-8 text-center text-muted-text">No myth data available.</div>;
-  }
-
-  if (isFinished) {
-    const correctCount = results.filter(r => r.userCorrect).length;
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 py-8">
-        <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-secondary-bg p-8 rounded-3xl shadow-xl max-w-md w-full border border-primary-border">
-          <h2 className="text-4xl font-black text-primary-text mb-4">
-            <TranslatedText text="Results" />
-          </h2>
-          <div className="text-6xl font-black text-[#E47A2E] mb-8">{correctCount} <span className="text-2xl text-muted-text">/ {myths.length}</span></div>
-          
-          <div className="flex flex-col gap-4 text-left max-h-[50vh] overflow-y-auto pr-2 mb-6 styled-scrollbar">
-            {results.map((r, i) => (
-              <div key={i} className={`p-4 rounded-xl border ${r.userCorrect ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'}`}>
-                 <div className="flex items-start justify-between mb-2">
-                   <p className="font-bold text-sm text-primary-text leading-snug pr-4">
-                     "<TranslatedText text={r.statement} />"
-                   </p>
-                   {r.userCorrect ? <Check className="w-5 h-5 text-green-500 flex-shrink-0" /> : <XIcon className="w-5 h-5 text-red-500 flex-shrink-0" />}
-                 </div>
-                 <p className="text-xs text-muted-text bg-primary-bg/50 p-2 rounded-lg">
-                   <TranslatedText text={r.explanation} />
-                 </p>
-              </div>
-            ))}
-          </div>
-
-          <button onClick={restart} className="flex items-center justify-center gap-2 w-full py-4 bg-accent-main text-accent-foreground rounded-xl font-bold text-lg hover:opacity-90 transition-all shadow-lg active:scale-95">
-            <RotateCcw className="w-5 h-5" /> <TranslatedText text="Play Again" />
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
+const FlipCard = ({ myth }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const { reducedMotion } = useElectionStore();
 
   return (
-    <div className="max-w-md mx-auto px-4 py-12 min-h-[70vh] flex flex-col items-center justify-center relative overflow-hidden">
-      
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-black text-primary-text mb-2 tracking-tight">
-          <TranslatedText text="Myth vs. Fact" />
-        </h2>
-        <p className="text-muted-text font-medium">
-          <TranslatedText text="Swipe or use A / D keys" />
-        </p>
-      </div>
+    <motion.div
+      whileHover={reducedMotion ? {} : { y: -8, scale: 1.02 }}
+      className="perspective-1000 w-full h-80 cursor-pointer focus-within:ring-4 focus-within:ring-saffron-500 rounded-[2.5rem] outline-none group"
+      onClick={() => setIsFlipped(!isFlipped)}
+      onKeyDown={(e) => e.key === 'Enter' && setIsFlipped(!isFlipped)}
+      tabIndex={0}
+      role="button"
+      aria-label={`Flip card for myth: ${myth.statement}`}
+    >
+      <motion.div
+        className="relative w-full h-full preserve-3d"
+        animate={{
+          rotateY: isFlipped ? 180 : 0,
+          boxShadow: isFlipped
+            ? "0 25px 50px -12px rgba(46, 139, 87, 0.25)"
+            : "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+        }}
+        transition={reducedMotion ? { duration: 0.2 } : { type: "spring", stiffness: 260, damping: 20 }}
+      >
+        {/* Front Side (Myth) */}
+        <div className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-primary-border rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center z-20 overflow-hidden">
+          {/* Subtle Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#E47A2E_1px,transparent_1px)] [background-size:20px_20px]" />
 
-      {/* Swipe Indicators */}
-      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 pointer-events-none z-20">
-        <motion.div style={{ opacity: mythOpacity }} className="bg-red-500 text-white p-4 rounded-r-3xl shadow-lg">
-          <XIcon className="w-8 h-8" />
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
+            <HelpCircle className="w-10 h-10" />
+          </div>
+
+          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500 mb-4 opacity-70">
+            <TranslatedText text="Common Myth" />
+          </h4>
+
+          <p className="text-xl md:text-2xl font-black text-primary-text leading-[1.2] mb-6 px-2">
+            "<TranslatedText text={myth.statement} />"
+          </p>
+
+          <div className="mt-auto text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40 flex items-center gap-3">
+            <div className="w-8 h-[1px] bg-muted-text/30" />
+            <TranslatedText text="Reveal Fact" />
+            <div className="w-8 h-[1px] bg-muted-text/30" />
+          </div>
+        </div>
+
+        {/* Back Side (Fact) */}
+        <div
+          className="absolute inset-0 backface-hidden bg-secondary-bg border-2 border-india-green-500 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center rotate-y-180 z-10"
+        >
+          {/* Subtle Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#2E8B57_1px,transparent_1px)] [background-size:20px_20px]" />
+
+          <div className="w-16 h-16 bg-india-green-500/10 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm">
+            <CheckCircle2 className="w-10 h-10 text-india-green-500" />
+          </div>
+
+          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-india-green-500 mb-4 opacity-70">
+            <TranslatedText text="Verified Fact" />
+          </h4>
+
+          <p className="text-lg font-bold text-primary-text leading-relaxed px-2">
+            <TranslatedText text={myth.explanation} />
+          </p>
+
+          <div className="mt-auto text-[10px] font-black text-muted-text uppercase tracking-widest opacity-40">
+            <TranslatedText text="Source: ECI Guidelines" />
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export const MythVsFact = () => {
+  const [isGameOpen, setIsGameOpen] = useState(false);
+  const myths = mythData.myths || [];
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-24 relative">
+      <div className="text-center mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-5xl md:text-7xl font-black text-primary-text mb-6 tracking-tighter">
+            <TranslatedText text="Myth" /> <span className="text-saffron-500 italic"><TranslatedText text="Busters" /></span>
+          </h2>
+          <p className="text-xl text-muted-text max-w-2xl mx-auto leading-relaxed font-medium">
+            <TranslatedText text="Challenge common misconceptions about the Indian electoral process with our interactive high-fidelity cards." />
+          </p>
         </motion.div>
       </div>
-      
-      <div className="absolute top-1/2 right-0 transform -translate-y-1/2 pointer-events-none z-20">
-        <motion.div style={{ opacity: factOpacity }} className="bg-green-500 text-white p-4 rounded-l-3xl shadow-lg">
-          <Check className="w-8 h-8" />
-        </motion.div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14 perspective-1000">
+        {myths.map((myth) => (
+          <FlipCard key={myth.id} myth={myth} />
+        ))}
       </div>
 
-      <div className="relative w-full max-w-[400px] h-[60vh] max-h-[500px] flex justify-center items-center">
-        
-        {/* Next Card (Background Stack) */}
-        {nextCard && (
-          <motion.div
-            initial={{ scale: 0.95, y: 10 }}
-            animate={{ scale: 0.95, y: 10 }}
-            className="absolute inset-0 bg-secondary-bg p-8 rounded-3xl shadow-md border border-primary-border flex flex-col justify-center text-center z-0 overflow-hidden"
-          >
-            <span className="text-[#E47A2E]/50 font-bold text-sm mb-6 uppercase tracking-widest bg-[#E47A2E]/5 py-1 px-3 rounded-full inline-block mx-auto">
-              <TranslatedText text="Statement" /> {currentIndex + 2}
-            </span>
-            <div className="w-3/4 h-4 bg-primary-border/20 rounded mx-auto mb-2"></div>
-            <div className="w-full h-4 bg-primary-border/20 rounded mx-auto mb-2"></div>
-            <div className="w-5/6 h-4 bg-primary-border/20 rounded mx-auto"></div>
-          </motion.div>
+      {/* Game Trigger FAB */}
+      <motion.button
+        whileHover={{ scale: 1.1, rotate: "5deg" }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsGameOpen(true)}
+        className="fixed bottom-10 left-10 p-6 bg-saffron-500 text-white rounded-[2rem] shadow-[0_20px_50px_rgba(228,122,46,0.4)] z-50 flex items-center gap-4 border-2 border-white/20 hover:bg-saffron-600 transition-colors group"
+        aria-label="Launch Trivia Quest"
+      >
+        <Gamepad2 className="w-8 h-8 group-hover:animate-bounce" />
+        <div className="flex flex-col items-start leading-none hidden md:flex">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-80 mb-1">Interactive</span>
+          <span className="font-black uppercase tracking-widest text-lg">
+            <TranslatedText text="Trivia Quest" />
+          </span>
+        </div>
+      </motion.button>
+
+      {/* Footer Info */}
+      <div className="mt-24 flex flex-col md:flex-row items-center justify-center gap-6">
+        <div className="flex items-center gap-4 text-sm text-muted-text bg-secondary-bg/50 py-4 px-8 rounded-3xl border border-primary-border shadow-sm backdrop-blur-md">
+          <AlertCircle className="w-6 h-6 text-saffron-500" />
+          <TranslatedText text="Accuracy is our priority. All facts are cross-referenced with ECI's Model Code of Conduct." />
+        </div>
+      </div>
+
+      {/* Minigame Modal */}
+      <AnimatePresence>
+        {isGameOpen && (
+          <MythFlipCards onClose={() => setIsGameOpen(false)} />
         )}
-
-        {/* Active Card */}
-        <AnimatePresence>
-          {activeCard && (
-            <motion.div
-              key={currentIndex}
-              style={{ x, rotate, opacity, backgroundColor, borderColor }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.7}
-              onDragEnd={handleDragEnd}
-              whileDrag={{ scale: 1.02, cursor: 'grabbing' }}
-              initial={{ scale: 0.95, y: -20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
-              exit={{ scale: 0.9, opacity: 0, transition: { duration: 0.2 } }}
-              className="absolute inset-0 p-8 rounded-3xl shadow-2xl border-2 flex flex-col cursor-grab z-10 touch-none overflow-hidden"
-            >
-              <div className="flex-1 overflow-y-auto styled-scrollbar flex flex-col justify-center">
-                <span className="text-[#E47A2E] font-bold text-sm mb-6 uppercase tracking-widest bg-[#E47A2E]/10 py-1 px-3 rounded-full inline-block mx-auto">
-                  <TranslatedText text="Statement" /> {currentIndex + 1}
-                </span>
-                <p className="text-2xl font-bold text-primary-text leading-relaxed mb-4 text-center">
-                  "<TranslatedText text={activeCard?.statement} />"
-                </p>
-              </div>
-              
-              <div className="mt-auto pt-4 text-sm font-bold text-muted-text uppercase tracking-widest flex justify-between px-2 border-t border-primary-border/20">
-                 <span className="text-red-400">← <TranslatedText text="Myth" /></span>
-                 <span className="text-green-400"><TranslatedText text="Fact" /> →</span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      </AnimatePresence>
     </div>
   );
 };

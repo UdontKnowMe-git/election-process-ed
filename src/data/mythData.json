@@ -1,0 +1,40 @@
+{
+  "myths": [
+    {
+      "id": 1,
+      "statement": "An NRI cannot vote in Indian elections.",
+      "isFact": false,
+      "explanation": "Fact: NRIs can register as overseas voters and vote in person at their respective polling stations in India."
+    },
+    {
+      "id": 2,
+      "statement": "EVMs can be hacked via Bluetooth or Wi-Fi.",
+      "isFact": false,
+      "explanation": "Fact: Indian EVMs are standalone, non-networked machines with no wireless communication capabilities."
+    },
+    {
+      "id": 3,
+      "statement": "Voting is legally mandatory in India.",
+      "isFact": false,
+      "explanation": "Fact: Voting is a right and a civic duty, but it is not mandatory by law in India."
+    },
+    {
+      "id": 4,
+      "statement": "One can vote using only the Aadhar Card.",
+      "isFact": false,
+      "explanation": "Fact: While Aadhar is an ID proof, you MUST be registered in the electoral roll to vote."
+    },
+    {
+      "id": 5,
+      "statement": "The Election Commission can disqualify a candidate for MCC violations.",
+      "isFact": true,
+      "explanation": "Fact: The ECI has the authority to bar candidates from campaigning or disqualify them for severe Model Code of Conduct violations."
+    },
+    {
+      "id": 6,
+      "statement": "If NOTA gets the most votes, the election is canceled.",
+      "isFact": false,
+      "explanation": "Fact: Currently, even if NOTA receives the highest number of votes, the candidate with the next highest votes is declared the winner."
+    }
+  ]
+}

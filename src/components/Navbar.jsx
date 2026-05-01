@@ -1,12 +1,68 @@
 import React, { useState } from 'react';
-import { Menu, X, Flag } from 'lucide-react';
+import { Menu, X, Flag, Award } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
 import { AccessibilityHub } from './AccessibilityHub';
 import { useTranslation } from '../hooks/useTranslation';
+import { motion } from 'framer-motion';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
   return <span className={className}>{translatedText}</span>;
+};
+
+const ProgressRing = () => {
+  const { questionsAnswered, timelineViewed } = useElectionStore();
+
+  // Total milestones: 25 quiz questions + 7 timeline points (approx)
+  const totalMilestones = 32;
+  const currentProgress = questionsAnswered + timelineViewed;
+  const percentage = Math.min((currentProgress / totalMilestones) * 100, 100);
+
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative flex items-center justify-center group cursor-help" title={`Your Progress: ${Math.round(percentage)}%`}>
+      <svg className="w-12 h-12 transform -rotate-90">
+        <circle
+          cx="24"
+          cy="24"
+          r={radius}
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="transparent"
+          className="text-primary-border"
+        />
+        <motion.circle
+          cx="24"
+          cy="24"
+          r={radius}
+          stroke="#E47A2E"
+          strokeWidth="3"
+          fill="transparent"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{ strokeDashoffset: offset }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          strokeLinecap="round"
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Award className={`w-5 h-5 ${percentage >= 100 ? 'text-[#E47A2E] fill-[#E47A2E]/20' : 'text-muted-text'}`} />
+      </div>
+
+      {/* Tooltip */}
+      <div className="absolute top-full mt-2 hidden group-hover:block bg-secondary-bg border border-primary-border p-2 rounded-lg shadow-xl z-50 whitespace-nowrap">
+        <p className="text-[10px] font-bold text-primary-text uppercase tracking-tighter">
+          <TranslatedText text="Voter Level" />: {percentage >= 100 ? 'Guru' : percentage >= 50 ? 'Advocate' : 'Novice'}
+        </p>
+        <div className="w-full h-1 bg-primary-border rounded-full mt-1 overflow-hidden">
+          <div className="h-full bg-[#E47A2E]" style={{ width: `${percentage}%` }} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export const Navbar = () => {
@@ -25,9 +81,11 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center p-1.5 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-             <Flag className="w-6 h-6 text-[#E47A2E]" fill="currentColor" />
-          </div>
+          <img
+            src="/flag.svg"
+            alt="India Flag"
+            className="indian-flag-logo"
+          />
           <h1 className="text-xl md:text-2xl font-black tracking-tight text-primary-text">
             <TranslatedText text="Democracy Journey" />
           </h1>
@@ -43,11 +101,10 @@ export const Navbar = () => {
                   <li key={link.id}>
                     <button
                       onClick={() => setActiveTab(link.id)}
-                      className={`text-sm font-semibold transition-colors duration-300 py-1 ${
-                        isActive
-                          ? 'text-[#E47A2E] border-b-2 border-[#E47A2E]'
-                          : 'text-muted-text hover:text-primary-text'
-                      }`}
+                      className={`text-sm font-semibold transition-colors duration-300 py-1 ${isActive
+                        ? 'text-[#E47A2E] border-b-2 border-[#E47A2E]'
+                        : 'text-muted-text hover:text-primary-text'
+                        }`}
                       aria-current={isActive ? 'page' : undefined}
                     >
                       <TranslatedText text={link.label} />
@@ -60,12 +117,16 @@ export const Navbar = () => {
 
           <div className="h-6 w-[1px] bg-primary-border mx-2" />
 
+          {/* Gamification Progress */}
+          <ProgressRing />
+
           {/* Accessibility Hub */}
           <AccessibilityHub />
         </div>
 
         {/* Mobile Actions */}
         <div className="flex items-center gap-2 md:hidden">
+          <ProgressRing />
           <AccessibilityHub />
           <button
             className="text-primary-text p-2"
@@ -90,9 +151,8 @@ export const Navbar = () => {
                       setActiveTab(link.id);
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`text-base font-semibold w-full text-left ${
-                      isActive ? 'text-[#E47A2E]' : 'text-muted-text'
-                    }`}
+                    className={`text-base font-semibold w-full text-left ${isActive ? 'text-[#E47A2E]' : 'text-muted-text'
+                      }`}
                   >
                     <TranslatedText text={link.label} />
                   </button>

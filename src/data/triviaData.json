@@ -1,0 +1,76 @@
+{
+  "myths": [
+    {
+      "id": 201,
+      "statement": "Tashigang in Himachal Pradesh is the world's highest polling station.",
+      "isFact": true,
+      "explanation": "Fact: Located at 15,256 feet, Tashigang is officially the highest polling station in the world."
+    },
+    {
+      "id": 202,
+      "statement": "Indelible ink was first used in India's very first election in 1951.",
+      "isFact": false,
+      "explanation": "Fact: It was first introduced in the 3rd General Election in 1962 to prevent double voting."
+    },
+    {
+      "id": 203,
+      "statement": "India uses the 'First-Past-The-Post' system for Lok Sabha elections.",
+      "isFact": true,
+      "explanation": "Fact: The candidate with the most votes in a constituency wins, regardless of whether they have a majority."
+    },
+    {
+      "id": 204,
+      "statement": "The Election Commission of India consists of only one member.",
+      "isFact": false,
+      "explanation": "Fact: It currently consists of the Chief Election Commissioner and two Election Commissioners."
+    },
+    {
+      "id": 205,
+      "statement": "Voters can see their choice printed on paper using VVPAT.",
+      "isFact": true,
+      "explanation": "Fact: Voter Verifiable Paper Audit Trail (VVPAT) allows voters to verify their vote for 7 seconds."
+    },
+    {
+      "id": 206,
+      "statement": "The maximum number of candidates on an EVM is 16.",
+      "isFact": false,
+      "explanation": "Fact: One EVM can handle 16 candidates, but up to 24 units can be linked to support 384 candidates."
+    },
+    {
+      "id": 207,
+      "statement": "The first EVMs were developed by NASA for India.",
+      "isFact": false,
+      "explanation": "Fact: EVMs were designed by the Election Commission in collaboration with Bharat Electronics and ECIL."
+    },
+    {
+      "id": 208,
+      "statement": "A voter can have their name in two different constituency rolls.",
+      "isFact": false,
+      "explanation": "Fact: It is a punishable offense under the RPA Act to be registered in more than one electoral roll."
+    },
+    {
+      "id": 209,
+      "statement": "The symbol of a National Party is reserved for it across all of India.",
+      "isFact": true,
+      "explanation": "Fact: National party symbols (like the Lotus or Hand) cannot be used by anyone else in any state."
+    },
+    {
+      "id": 210,
+      "statement": "Independent candidates are not allowed to contest Lok Sabha elections.",
+      "isFact": false,
+      "explanation": "Fact: Any eligible Indian citizen can contest as an independent candidate."
+    },
+    {
+      "id": 211,
+      "statement": "The total duration of a general election can exceed two months.",
+      "isFact": true,
+      "explanation": "Fact: Due to the scale and security required, Indian elections often span several weeks or months."
+    },
+    {
+      "id": 212,
+      "statement": "Voters in the Gir Forest have a polling booth set up for just one person.",
+      "isFact": true,
+      "explanation": "Fact: For every election, a booth is set up for Mahant Bharatdas Darshandas to ensure 100% participation."
+    }
+  ]
+}

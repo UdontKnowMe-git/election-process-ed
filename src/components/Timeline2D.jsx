@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
 import timelineData from '../data/timelineData.json';
 import { useElectionStore } from '../store/useElectionStore';
 import { useTranslation } from '../hooks/useTranslation';
@@ -11,8 +10,22 @@ const TranslatedText = ({ text, className }) => {
 };
 
 const TimelineItem = ({ data, index, totalItems }) => {
-  const { reducedMotion } = useElectionStore();
+  const { reducedMotion, markTimelinePoint } = useElectionStore();
   const ref = useRef(null);
+  
+  // Track viewing
+  useEffect(() => {
+    if (ref.current) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          markTimelinePoint(index);
+        }
+      }, { threshold: 0.5 });
+      observer.observe(ref.current);
+      return () => observer.disconnect();
+    }
+  }, [index, markTimelinePoint]);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["0 1", "1.3 1"]

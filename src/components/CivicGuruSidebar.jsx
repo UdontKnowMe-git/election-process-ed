@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, User, AlertCircle, Loader2 } from 'lucide-react';
 import { useGemini } from '../hooks/useGemini';
 import { useElectionStore } from '../store/useElectionStore';
+import ReactMarkdown from 'react-markdown';
 
 const QUICK_ASKS = [
   "How do I register to vote?",
@@ -19,13 +20,17 @@ export const CivicGuruSidebar = () => {
   const { messages, isLoading, error, sendMessage } = useGemini();
 
   // Auto-scroll to bottom of messages
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = (behavior = 'smooth') => {
+    messagesEndRef.current?.scrollIntoView({ behavior });
   };
 
   useEffect(() => {
     if (isSidebarOpen) {
-      scrollToBottom();
+      // Immediate scroll
+      scrollToBottom('auto');
+      // Delayed smooth scroll to account for image/markdown rendering
+      const timer = setTimeout(() => scrollToBottom('smooth'), 100);
+      return () => clearTimeout(timer);
     }
   }, [messages, isSidebarOpen, isLoading]);
 
@@ -124,11 +129,22 @@ export const CivicGuruSidebar = () => {
                     </div>
 
                     {/* Message Bubble */}
-                    <div className={`p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
+                    <div className={`p-4 rounded-2xl text-sm leading-[1.5] ${msg.role === 'user'
                       ? 'bg-accent-main text-accent-foreground rounded-tr-none'
                       : 'bg-primary-bg text-primary-text border border-primary-border rounded-tl-none shadow-sm'
                       }`}>
-                      {msg.content}
+                      <ReactMarkdown 
+                        components={{
+                          p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                          ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2 space-y-1" {...props} />,
+                          ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2 space-y-1" {...props} />,
+                          li: ({node, ...props}) => <li className="pl-1" {...props} />,
+                          a: ({node, ...props}) => <a className="text-blue-500 hover:underline font-bold" target="_blank" rel="noopener noreferrer" {...props} />,
+                          strong: ({node, ...props}) => <strong className="font-black" {...props} />,
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 </div>

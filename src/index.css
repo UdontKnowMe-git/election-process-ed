@@ -108,6 +108,14 @@
   .text-input { color: var(--input-text); }
   .bg-accent-main { background-color: var(--accent-color); }
   .text-accent-foreground { color: var(--accent-foreground); }
+
+  .indian-flag-logo {
+    height: 36px;
+    width: auto;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));
+    border-radius: 4px;
+    object-fit: contain;
+  }
 }
 
 .styled-scrollbar::-webkit-scrollbar {
@@ -127,4 +135,22 @@
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
+}
+
+/* 3D Flip Card Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }
