@@ -16,36 +16,11 @@ import {
   ShieldCheck,
   Flag
 } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 import { useTranslation } from '../hooks/useTranslation';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
   return <span className={className}>{translatedText}</span>;
-};
-
-const getPoliticalData = async (pincode) => {
-  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-  const client = new GoogleGenAI({ apiKey: API_KEY });
-  const systemPrompt = `You are a strict data API for Indian electoral records.
-  Task: Identify the current (2024-2029) Member of Parliament (MP) and Member of Legislative Assembly (MLA) for the provided pincode.
-  CRITICAL: You MUST include the specific name of the MLA and their Party. 
-  Respond ONLY with a valid JSON object.`;
-
-  try {
-    const result = await client.models.generateContent({
-      model: "gemini-2.5-flash",
-      systemInstruction: "You are a data API. Return ONLY raw JSON. No conversational text.",
-      contents: [{ role: "user", parts: [{ text: `Pincode: ${pincode}` }] }],
-      generationConfig: { responseMimeType: "application/json" }
-    });
-    const jsonMatch = result.text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error("No JSON found");
-    return JSON.parse(jsonMatch[0]);
-  } catch (error) {
-    console.error("Political API Error:", error);
-    return { error: "Could not retrieve representative data. Please check the pincode or try again." };
-  }
 };
 
 const CoalitionCard = ({ name, leadParty, focus, figures, color, vision, tagline, delay = 0 }) => (
