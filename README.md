@@ -30,7 +30,7 @@ Explore the election cycle through a scroll-based narrative. Our timeline-based 
 Meet your non-partisan electoral assistant. Powered by Google's LLM ecosystem, the **Civic Guru** provides real-time, Markdown-formatted insights into ECI guidelines, voter registration, and constitutional rights.
 
 ### 🃏 Trivia Quest
-Experience gamified myth-busting with our **Tinder-style swipe mechanics**. Challenge common misconceptions about the electoral process in a fast-paced, interactive card game built with high-fidelity physics.
+Experience gamified myth-busting with our **Intuitive Swipe-Based Gamification**. Challenge common misconceptions about the electoral process in a fast-paced, interactive card game built with high-fidelity physics.
 
 ### 🌍 Multilingual Support
 Democracy is for everyone. Our platform features an asynchronous translation proxy providing full support for regional languages including:
