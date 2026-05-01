@@ -2,11 +2,6 @@
   <img src="public/flag.svg" alt="India Flag" width="120" />
   <h1>🗳️ Democracy Journey</h1>
   <p><strong>A Modern, Privacy-First Civic Education Platform for Indian Voters.</strong></p>
-
-  [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100&category=performance)](https://github.com/ebidel/lighthouse-badge)
-  [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100&category=accessibility)](https://github.com/ebidel/lighthouse-badge)
-  [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100&category=best-practices)](https://github.com/ebidel/lighthouse-badge)
-  [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100&category=seo)](https://github.com/ebidel/lighthouse-badge)
 </div>
 
 ---
@@ -19,7 +14,8 @@
 
 We believe that civic tools must be fast, reliable, and accessible to everyone, regardless of their device or connection.
 
-![Lighthouse Score](file:///C:/Users/NEXT%20GEN/.gemini/antigravity/brain/59579b7d-6538-448b-acf8-021e88194887/media__1777629050206.png)
+<img width="367" height="358" alt="lighthouse-audit" src="https://github.com/user-attachments/assets/a0190e41-ce57-45ca-903b-8acc53e2aa86" />
+
 
 *Our platform is built to exceed industry standards, achieving near-perfect scores across all Google Lighthouse metrics (100/96/100/92).*
 
