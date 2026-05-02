@@ -114,7 +114,7 @@ export const Navbar = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search official ECI data..."
               aria-label="Search official ECI data"
-              className="w-full bg-secondary-bg/50 border border-primary-border rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#E47A2E] focus:border-transparent transition-all"
+              className="w-full bg-secondary-bg/50 border-2 border-primary-border rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#E47A2E] focus:border-transparent transition-all"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-text group-focus-within:text-[#E47A2E] transition-colors" />
           </form>
@@ -142,7 +142,7 @@ export const Navbar = () => {
                       <TranslatedText text={link.label} />
                     </button>
                     {link.id === 'voter-quest' && showVoterQuestBadge && activeTab !== 'voter-quest' && (
-                      <div 
+                      <div
                         className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap animate-pulse-soft cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -177,11 +177,10 @@ export const Navbar = () => {
           <ProgressRing />
           <AccessibilityHub />
           <button
-            className={`text-primary-text p-2 rounded-lg transition-all ${
-              !isMobileMenuOpen && showVoterQuestBadge && activeTab !== 'voter-quest'
-                ? 'ring-2 ring-[#E47A2E] animate-pulse shadow-[0_0_15px_rgba(228,122,46,0.4)]'
-                : ''
-            }`}
+            className={`text-primary-text p-2 rounded-lg transition-all ${!isMobileMenuOpen && showVoterQuestBadge && activeTab !== 'voter-quest'
+              ? 'ring-2 ring-[#E47A2E] animate-pulse shadow-[0_0_15px_rgba(228,122,46,0.4)]'
+              : ''
+              }`}
             onClick={() => {
               setIsMobileMenuOpen(!isMobileMenuOpen);
               if (!isMobileMenuOpen) dismissBadge();

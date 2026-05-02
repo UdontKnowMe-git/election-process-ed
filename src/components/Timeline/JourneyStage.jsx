@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { useTimelineLogic } from '../hooks/useTimelineLogic';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTimelineLogic } from '../../hooks/useTimelineLogic';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);

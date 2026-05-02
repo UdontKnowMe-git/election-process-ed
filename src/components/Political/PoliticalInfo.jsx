@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, User, Users } from 'lucide-react';
-import { POLITICAL_DATA } from '../data/POLITICAL_DATA';
+import { POLITICAL_DATA } from '../../data/POLITICAL_DATA';
 import { CoalitionCard } from './CoalitionCard';
 import { NationalPartyGrid } from './NationalPartyGrid';
 import { RegionalMarquee } from './RegionalMarquee';

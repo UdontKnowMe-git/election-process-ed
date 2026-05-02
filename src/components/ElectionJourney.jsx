@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Timeline2D } from './Timeline2D';
+import { Timeline2D } from './Timeline/Timeline2D';
 import { VoterQuest } from './VoterQuest';
 import { MythVsFact } from './MythVsFact';
 import { LatestNews } from './LatestNews';
 import { VoterPledge } from './VoterPledge';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { PoliticalInfo } from './PoliticalInfo';
+import { PoliticalInfo } from './Political/PoliticalInfo';
 import { useElectionStore } from '../store/useElectionStore';
 import { useTranslation } from '../hooks/useTranslation';
 

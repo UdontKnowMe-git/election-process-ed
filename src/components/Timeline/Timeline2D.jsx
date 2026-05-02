@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import timelineData from '../data/timelineData.json';
-import { VOTER_JOURNEY_DATA } from '../data/voterJourneyData';
-import { useTimelineLogic } from '../hooks/useTimelineLogic';
-import { useTranslation } from '../hooks/useTranslation';
-import { useElectionStore } from '../store/useElectionStore';
+import timelineData from '../../data/timelineData.json';
+import { VOTER_JOURNEY_DATA } from '../../data/voterJourneyData';
+import { useTimelineLogic } from '../../hooks/useTimelineLogic';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useElectionStore } from '../../store/useElectionStore';
 
 import { TimelineHeader } from './TimelineHeader';
 import { JourneyStage } from './JourneyStage';

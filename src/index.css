@@ -10,9 +10,9 @@
   --color-ashoka-blue-500: #1A365D;
   --color-ashoka-blue-600: #102A4A;
   
-  --color-background-light: #FDFBF7;
+  --color-background-light: #F5F7F8;
   --color-background-dark: #16171d;
-  --color-text-light: #1F2937;
+  --color-text-light: #0f172a;
   --color-text-dark: #F3F4F6;
 
   /* High Contrast Colors */
@@ -72,7 +72,7 @@
     --tw-border-opacity: 1 !important;
   }
 
-  body {
+  body, #root {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: 'Inter', system-ui, sans-serif;
