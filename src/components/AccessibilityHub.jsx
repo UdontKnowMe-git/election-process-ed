@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Accessibility, 
-  ChevronDown, 
-  Type, 
-  ZapOff, 
-  Focus, 
-  Languages, 
-  Sun, 
-  Moon, 
+import {
+  Accessibility,
+  ChevronDown,
+  Type,
+  ZapOff,
+  Focus,
+  Languages,
+  Sun,
+  Moon,
   Eye,
   Check,
   Maximize2
@@ -35,14 +35,12 @@ const Toggle = ({ enabled, onChange, label, icon: Icon }) => (
       role="switch"
       aria-checked={enabled}
       onClick={() => onChange(!enabled)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all focus:outline-none ring-2 ring-transparent focus:ring-[#E47A2E] border border-[#d1d5db] ${
-        enabled ? 'bg-[#E47A2E] border-[#E47A2E]' : 'bg-gray-100'
-      }`}
+      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all focus:outline-none ring-2 ring-transparent focus:ring-[#E47A2E] border border-[#d1d5db] ${enabled ? 'bg-[#E47A2E] border-[#E47A2E]' : 'bg-gray-100'
+        }`}
     >
       <span
-        className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${
-          enabled ? 'translate-x-6' : 'translate-x-1'
-        }`}
+        className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${enabled ? 'translate-x-6' : 'translate-x-1'
+          }`}
       />
     </button>
   </div>
@@ -50,9 +48,10 @@ const Toggle = ({ enabled, onChange, label, icon: Icon }) => (
 
 export const AccessibilityHub = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showTranslationTip, setShowTranslationTip] = useState(false);
   const dropdownRef = useRef(null);
-  
-  const { 
+
+  const {
     theme, toggleTheme,
     dyslexiaFont, setDyslexiaFont,
     reducedMotion, setReducedMotion,
@@ -75,7 +74,10 @@ export const AccessibilityHub = () => {
 
   const handleLanguageChange = (langId) => {
     setLanguage(langId);
-    // UI will re-render automatically because setLanguage updates the Zustand store
+    if (langId !== 'en') {
+      setShowTranslationTip(true);
+      setTimeout(() => setShowTranslationTip(false), 5000);
+    }
   };
 
   return (
@@ -84,13 +86,12 @@ export const AccessibilityHub = () => {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Accessibility options menu"
         aria-expanded={isOpen}
-        className={`flex items-center gap-2 p-2 rounded-xl transition-all border shadow-sm ${
-          isOpen 
-            ? 'bg-[#E47A2E] text-black border-[#E47A2E]' 
+        className={`flex items-center gap-2 p-2 rounded-xl transition-all border shadow-sm ${isOpen
+            ? 'bg-[#E47A2E] text-black border-[#E47A2E]'
             : (theme === 'dark' || theme === 'high-contrast')
               ? 'bg-[#1a1c23] text-[#E47A2E] border-white/10 hover:border-[#E47A2E]'
               : 'bg-[#f3f4f6] text-primary-text border-[#d1d5db] hover:border-[#E47A2E]'
-        }`}
+          }`}
       >
         <Accessibility className="w-5 h-5" />
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -105,17 +106,17 @@ export const AccessibilityHub = () => {
             className="absolute right-0 mt-3 w-72 bg-secondary-bg border border-primary-border rounded-2xl shadow-2xl z-[100] overflow-hidden flex flex-col max-h-[70vh]"
           >
             <div className="p-4 bg-primary-bg/50 border-b border-primary-border sticky top-0 z-10 backdrop-blur-md">
-               <h3 className="text-xs font-black uppercase tracking-widest text-muted-text">{t.hub_title}</h3>
+              <h3 className="text-xs font-black uppercase tracking-widest text-muted-text">{t.hub_title}</h3>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 styled-scrollbar pb-8">
               {/* Theme Selector */}
               <div className="flex items-center justify-between py-3 border-b border-primary-border">
                 <div className="flex items-center gap-3 text-primary-text">
-                   {theme === 'light' ? <Sun className="w-4 h-4 text-[#E47A2E]" /> : theme === 'dark' ? <Moon className="w-4 h-4 text-[#E47A2E]" /> : <Eye className="w-4 h-4 text-[#E47A2E]" />}
-                   <span className="text-sm font-medium">{t.theme_mode}</span>
+                  {theme === 'light' ? <Sun className="w-4 h-4 text-[#E47A2E]" /> : theme === 'dark' ? <Moon className="w-4 h-4 text-[#E47A2E]" /> : <Eye className="w-4 h-4 text-[#E47A2E]" />}
+                  <span className="text-sm font-medium">{t.theme_mode}</span>
                 </div>
-                <button 
+                <button
                   onClick={toggleTheme}
                   className="text-xs font-bold px-3 py-1 bg-[#E47A2E] text-white rounded-full border border-[#E47A2E] hover:opacity-90 transition-all uppercase shadow-sm"
                 >
@@ -124,51 +125,50 @@ export const AccessibilityHub = () => {
               </div>
 
               {/* Toggles */}
-              <Toggle 
-                label={t.dyslexia_font} 
-                icon={Type} 
-                enabled={dyslexiaFont} 
-                onChange={setDyslexiaFont} 
+              <Toggle
+                label={t.dyslexia_font}
+                icon={Type}
+                enabled={dyslexiaFont}
+                onChange={setDyslexiaFont}
               />
-              <Toggle 
-                label={t.reduced_motion} 
-                icon={ZapOff} 
-                enabled={reducedMotion} 
-                onChange={setReducedMotion} 
+              <Toggle
+                label={t.reduced_motion}
+                icon={ZapOff}
+                enabled={reducedMotion}
+                onChange={setReducedMotion}
               />
-              <Toggle 
-                label={t.enhanced_focus} 
-                icon={Focus} 
-                enabled={enhancedFocus} 
-                onChange={setEnhancedFocus} 
+              <Toggle
+                label={t.enhanced_focus}
+                icon={Focus}
+                enabled={enhancedFocus}
+                onChange={setEnhancedFocus}
               />
-              <Toggle 
-                label={t.text_scaling} 
-                icon={Maximize2} 
-                enabled={textScale} 
-                onChange={setTextScale} 
+              <Toggle
+                label={t.text_scaling}
+                icon={Maximize2}
+                enabled={textScale}
+                onChange={setTextScale}
               />
 
               {/* Language Selection */}
               <div className="mt-4 pt-4 border-t border-primary-border">
                 <div className="flex items-center gap-3 text-primary-text mb-3">
-                   <Languages className="w-4 h-4 text-[#E47A2E]" />
-                   <span className="text-sm font-bold">{t.translation}</span>
+                  <Languages className="w-4 h-4 text-[#E47A2E]" />
+                  <span className="text-sm font-bold">{t.translation}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-1">
                   {LANGUAGES.map((lang) => (
                     <button
                       key={lang.id}
                       onClick={() => handleLanguageChange(lang.id)}
-                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all border mb-1 ${
-                        language === lang.id 
-                          ? 'bg-[#E47A2E] text-white font-bold shadow-md border-[#E47A2E]' 
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all border mb-1 ${language === lang.id
+                          ? 'bg-[#E47A2E] text-white font-bold shadow-md border-[#E47A2E]'
                           : theme === 'high-contrast'
                             ? 'border-2 border-[#FFFF00] bg-black text-[#FFFF00] font-black'
                             : theme === 'dark'
                               ? 'text-[#E47A2E] bg-[#1a1c23] border-white/10 hover:border-[#E47A2E]'
                               : 'text-[#E47A2E] bg-white border-gray-200 hover:border-[#E47A2E]'
-                      }`}
+                        }`}
                     >
                       {lang.label}
                       {language === lang.id && <Check className={`w-4 h-4 ${theme === 'high-contrast' ? 'text-[#FFFF00]' : 'text-white'}`} />}
@@ -179,8 +179,24 @@ export const AccessibilityHub = () => {
             </div>
 
             <div className="p-4 bg-primary-bg/30 text-[10px] text-center text-muted-text italic border-t border-primary-border">
-               {t.motto}
+              {t.motto}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Translation Tip Bubble */}
+      <AnimatePresence>
+        {showTranslationTip && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 50, x: '-50%' }}
+            className="fixed bottom-10 left-1/2 z-[1000] px-6 py-3 bg-[#001F3F] text-white text-sm rounded-full shadow-2xl border border-white/10 flex items-center gap-3 cursor-pointer"
+            onClick={() => setShowTranslationTip(false)}
+          >
+            <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+            Hanging tight! Preparing your translation... This may take a few seconds.
           </motion.div>
         )}
       </AnimatePresence>
