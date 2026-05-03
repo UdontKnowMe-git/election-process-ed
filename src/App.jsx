@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ElectionJourney } from './components/ElectionJourney';
 import { CivicGuruSidebar } from './components/CivicGuruSidebar';
+import { ProfileSidebar } from './components/ProfileSidebar';
 import { useElectionStore } from './store/useElectionStore';
 import './App.css';
 
@@ -60,6 +61,7 @@ function App() {
         <ElectionJourney />
       </div>
       <CivicGuruSidebar />
+      <ProfileSidebar />
     </div>
   );
 }

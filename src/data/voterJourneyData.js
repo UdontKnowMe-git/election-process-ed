@@ -7,7 +7,8 @@ export const VOTER_JOURNEY_DATA = [
     title: 'Registration',
     description: 'The foundation of your democratic right.',
     icon: ClipboardList,
-    accent: '#3B82F6', // Electric Blue
+    accent: '#3B82F6',
+    youtubeQuery: 'How to register to vote in India official',
     details: {
       steps: [
         'Fill Form 6 for new registration.',
@@ -24,6 +25,7 @@ export const VOTER_JOURNEY_DATA = [
     description: 'Ensure your name is in the roll.',
     icon: Search,
     accent: '#3B82F6',
+    youtubeQuery: 'Check name in voter list India',
     details: {
       steps: [
         'Check your name in the Electoral Roll.',
@@ -36,11 +38,29 @@ export const VOTER_JOURNEY_DATA = [
   {
     id: 'stage3',
     stage: 'Stage 3',
+    title: 'Research',
+    description: 'Know your candidates.',
+    icon: Search,
+    accent: '#3B82F6',
+    youtubeQuery: 'How to check candidate criminal records India',
+    details: {
+      steps: [
+        'Check candidate profiles on KYC App.',
+        'Read educational & financial affidavits.',
+        'Compare candidate performance records.'
+      ],
+      howTo: 'Use the Know Your Candidate (KYC) app by ECI or visit myneta.info for detailed candidate background.'
+    }
+  },
+  {
+    id: 'stage4',
+    stage: 'Stage 4',
     title: 'The Big Day',
     description: 'The 5-step booth process.',
     icon: Vote,
     accent: '#3B82F6',
     hasEVM: true,
+    youtubeQuery: 'How to use EVM and VVPAT machine',
     details: {
       steps: [
         'ID Check: Verification by First Polling Officer.',
@@ -53,12 +73,13 @@ export const VOTER_JOURNEY_DATA = [
     }
   },
   {
-    id: 'stage4',
-    stage: 'Stage 4',
+    id: 'stage5',
+    stage: 'Stage 5',
     title: 'Post-Poll',
     description: 'Counting and Results.',
     icon: TrendingUp,
     accent: '#3B82F6',
+    youtubeQuery: 'How to check election results ECI',
     details: {
       steps: [
         'Monitor Voter Turnout in real-time.',

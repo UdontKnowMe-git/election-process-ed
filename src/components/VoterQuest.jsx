@@ -8,6 +8,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import quizData from '../data/quizData.json';
 import translations from '../data/translations.json';
 import { Timer, Zap, Trophy, PlayCircle } from 'lucide-react';
+import { AnalyticsService } from '../services/AnalyticsService';
 
 const TranslatedText = ({ text, className }) => {
     const { translatedText } = useTranslation(text);
@@ -55,6 +56,7 @@ export const VoterQuest = () => {
 
     useEffect(() => {
         if (status === 'finished') {
+            AnalyticsService.logEvent('quiz_complete', { score });
             if (score > 0) {
                 confetti({
                     particleCount: 150,

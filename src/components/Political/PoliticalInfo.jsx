@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, User, Users } from 'lucide-react';
 import { POLITICAL_DATA } from '../../data/POLITICAL_DATA';
 import { CoalitionCard } from './CoalitionCard';
 import { NationalPartyGrid } from './NationalPartyGrid';
 import { RegionalMarquee } from './RegionalMarquee';
+import { useElectionStore } from '../../store/useElectionStore';
+import { fetchRepresentativeByPincode } from '../../utils/pincode';
 
 export const PoliticalInfo = () => {
   const [activeTier, setActiveTier] = useState(null);
   
-  // Note: getPoliticalData search feature logic remains intact but is omitted from this layout-only file 
-  // as per the user's focus on UI layout modularity. To fully integrate, it should be in a custom hook.
+  const { pincode } = useElectionStore();
   const [result, setResult] = useState(null); 
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (pincode && pincode.length === 6) {
+      setLoading(true);
+      fetchRepresentativeByPincode(pincode).then(data => {
+        setResult(data);
+        setLoading(false);
+      });
+    } else {
+      setResult(null);
+    }
+  }, [pincode]);
+
   return (
-    <div className="max-w-6xl mx-auto px-6 py-20">
+    <div className="max-w-6xl mx-auto px-6 py-20 overflow-hidden flex flex-col w-full">
       <div className="text-center mb-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h2 className="text-4xl md:text-6xl font-black !text-primary-text mb-6 tracking-tighter">
@@ -49,9 +62,9 @@ export const PoliticalInfo = () => {
               onClick={() => setActiveTier(activeTier === tier.id ? null : tier.id)}
               className={`
                 ${tier.width} 
-                relative cursor-pointer transition-all duration-500
-                bg-secondary-bg/40 backdrop-blur-2xl border-2 border-primary-border
-                rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8
+                relative cursor-pointer transition-all duration-500 overflow-hidden
+                bg-secondary-bg/40 backdrop-blur-md border-2 border-primary-border
+                rounded-[1.5rem] md:rounded-[2rem] p-4 sm:p-8
                 ${activeTier === tier.id ? tier.glow + ' scale-105' : 'hover:scale-[1.02]'}
               `}
             >
@@ -71,13 +84,13 @@ export const PoliticalInfo = () => {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/10"
+                    className="flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/10 min-w-0 max-w-full"
                   >
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center !text-white flex-shrink-0 ${tier.color.replace('text-', 'bg-')}`}>
                       <User className="w-4 h-4" />
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-[8px] font-black uppercase opacity-60 !text-primary-text">Your Representative</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[8px] font-black uppercase opacity-60 !text-primary-text truncate">Your Representative</p>
                       <p className="text-xs font-black !text-primary-text truncate">
                         {tier.id === 'union' ? result.mp?.name : tier.id === 'state' ? result.mla?.name : result.local_body || 'Gram Panchayat'}
                       </p>
@@ -97,11 +110,11 @@ export const PoliticalInfo = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                       <div>
                         <h5 className="text-[10px] font-black uppercase !text-muted-text mb-2 tracking-widest">Jurisdiction</h5>
-                        <p className="text-xs font-medium !text-primary-text leading-relaxed">{tier.jurisdiction}</p>
+                        <p className="text-xs font-medium !text-primary-text leading-relaxed break-words">{tier.jurisdiction}</p>
                       </div>
                       <div>
                         <h5 className="text-[10px] font-black uppercase !text-muted-text mb-2 tracking-widest">Representation</h5>
-                        <p className="text-xs font-medium !text-primary-text leading-relaxed">{tier.representation}</p>
+                        <p className="text-xs font-medium !text-primary-text leading-relaxed break-words">{tier.representation}</p>
                       </div>
                     </div>
                   </motion.div>

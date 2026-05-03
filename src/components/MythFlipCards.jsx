@@ -4,6 +4,7 @@ import triviaData from '../data/triviaData.json';
 import { useTranslation } from '../hooks/useTranslation';
 import { HelpCircle, CheckCircle2, X, Check, ArrowRight, RotateCcw } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
+import { AnalyticsService } from '../services/AnalyticsService';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
@@ -71,6 +72,7 @@ export const MythFlipCards = ({ onClose }) => {
       controls.set({ x: 0, opacity: 1 });
     } else {
       setIsFinished(true);
+      AnalyticsService.logEvent('myth_fact_complete', { final_score: score + (lastUserGuess ? 1 : 0) });
     }
   };
 

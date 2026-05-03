@@ -19,13 +19,13 @@ export const CoalitionCard = ({ name, leadParty, focus, figures, color, vision, 
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay }}
     whileHover={{ y: -10 }}
-    className={`relative bg-secondary-bg/40 backdrop-blur-xl border-2 border-primary-border rounded-[2.5rem] p-8 shadow-2xl overflow-hidden group h-full flex flex-col`}
+    className={`relative bg-secondary-bg/40 backdrop-blur-md border-2 border-primary-border rounded-[2.5rem] p-4 sm:p-8 shadow-2xl overflow-hidden group h-full flex flex-col gap-6`}
   >
     <div className={`absolute top-0 right-0 w-40 h-40 ${color}/10 rounded-full -mr-20 -mt-20 blur-3xl`} />
     <div className="flex justify-between items-start mb-8">
       <div>
-        <h4 className={`text-3xl font-black mb-2 ${color.replace('bg-', '!text-')}`}><TranslatedText text={name} /></h4>
-        <p className="text-xs font-black uppercase tracking-widest !text-muted-text"><TranslatedText text={tagline} /></p>
+        <h4 className={`text-2xl md:text-3xl font-black mb-2 ${color.replace('bg-', '!text-')} truncate`}><TranslatedText text={name} /></h4>
+        <p className="text-xs font-black uppercase tracking-widest !text-muted-text truncate"><TranslatedText text={tagline} /></p>
       </div>
       <div className={`p-4 rounded-2xl ${color} !text-white shadow-lg`}>
         <Flag className="w-6 h-6" />
@@ -39,13 +39,13 @@ export const CoalitionCard = ({ name, leadParty, focus, figures, color, vision, 
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="p-4 bg-primary-bg/50 rounded-2xl border border-primary-border/50">
+        <div className="p-4 bg-primary-bg/50 rounded-2xl border border-primary-border/50 min-w-0">
           <p className="text-[10px] font-black uppercase !text-muted-text mb-2"><TranslatedText text="Focus Area" /></p>
-          <p className="text-sm font-bold !text-primary-text"><TranslatedText text={focus} /></p>
+          <p className="text-sm font-bold !text-primary-text break-words"><TranslatedText text={focus} /></p>
         </div>
-        <div className="p-4 bg-primary-bg/50 rounded-2xl border border-primary-border/50">
+        <div className="p-4 bg-primary-bg/50 rounded-2xl border border-primary-border/50 min-w-0">
           <p className="text-[10px] font-black uppercase !text-muted-text mb-2"><TranslatedText text="Key Figures" /></p>
-          <p className="text-xs font-bold !text-primary-text"><TranslatedText text={figures} /></p>
+          <p className="text-xs font-bold !text-primary-text break-words"><TranslatedText text={figures} /></p>
         </div>
       </div>
 

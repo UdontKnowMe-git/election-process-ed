@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Menu, X, Flag, Award, Search } from 'lucide-react';
+import { Menu, X, Flag, Award, Search, UserCircle } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
 import { AccessibilityHub } from './AccessibilityHub';
 import { useTranslation } from '../hooks/useTranslation';
 import { motion } from 'framer-motion';
+import { loginWithGoogle, syncUserDocument, db } from '../services/firebase';
+import { calculateVoterJourneyProgress } from '../utils/progress';
+import { doc, getDoc } from 'firebase/firestore';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
@@ -11,12 +14,10 @@ const TranslatedText = ({ text, className }) => {
 };
 
 const ProgressRing = () => {
-  const { questionsAnswered, timelineViewed } = useElectionStore();
+  const { questionsAnswered, timelineViewed, user, voterJourneyProgress } = useElectionStore();
 
-  // Total milestones: 25 quiz questions + 7 timeline points (approx)
   const totalMilestones = 32;
-  const currentProgress = questionsAnswered + timelineViewed;
-  const percentage = Math.min((currentProgress / totalMilestones) * 100, 100);
+  const percentage = calculateVoterJourneyProgress(questionsAnswered, timelineViewed, user ? voterJourneyProgress : 0, totalMilestones);
 
   const radius = 18;
   const circumference = 2 * Math.PI * radius;
@@ -69,7 +70,35 @@ export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showVoterQuestBadge, setShowVoterQuestBadge] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const { activeTab, setActiveTab } = useElectionStore();
+  const { activeTab, setActiveTab, user, setUser, toggleProfileSidebar } = useElectionStore();
+
+  const handleLogin = async () => {
+    const loggedInUser = await loginWithGoogle();
+    if (loggedInUser) {
+      setUser(loggedInUser);
+      await syncUserDocument(loggedInUser);
+      
+      // Fetch profile data
+      if (db && db.collection) {
+        try {
+          const userRef = doc(db, 'users', loggedInUser.uid);
+          const snap = await getDoc(userRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            useElectionStore.getState().setProfileData({
+              fullName: data.displayName || '',
+              age: data.age || '',
+              pincode: data.pincode || '',
+              voterJourneyProgress: data.voterJourneyProgress || 0,
+              voterQuestHighScore: data.voterQuestHighScore || 0,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      }
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -168,6 +197,24 @@ export const Navbar = () => {
           {/* Gamification Progress */}
           <ProgressRing />
 
+          {/* Profile / Login */}
+          {user ? (
+            <button 
+              onClick={toggleProfileSidebar} 
+              className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-600 hover:scale-105 transition-transform"
+            >
+              <img src={user.photoURL || 'https://via.placeholder.com/40'} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </button>
+          ) : (
+            <button 
+              onClick={handleLogin}
+              className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-indigo-700 transition-colors shadow-sm"
+            >
+              <UserCircle className="w-5 h-5" />
+              <TranslatedText text="Login" />
+            </button>
+          )}
+
           {/* Accessibility Hub */}
           <AccessibilityHub />
         </div>
@@ -175,6 +222,18 @@ export const Navbar = () => {
         {/* Mobile Actions */}
         <div className="flex items-center gap-2 md:hidden">
           <ProgressRing />
+          {user ? (
+            <button 
+              onClick={toggleProfileSidebar} 
+              className="w-8 h-8 rounded-full overflow-hidden border-2 border-indigo-600"
+            >
+              <img src={user.photoURL || 'https://via.placeholder.com/32'} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </button>
+          ) : (
+            <button onClick={handleLogin} className="p-2 text-indigo-600">
+              <UserCircle className="w-6 h-6" />
+            </button>
+          )}
           <AccessibilityHub />
           <button
             className={`text-primary-text p-2 rounded-lg transition-all ${!isMobileMenuOpen && showVoterQuestBadge && activeTab !== 'voter-quest'

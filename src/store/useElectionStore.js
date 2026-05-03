@@ -21,6 +21,13 @@ export const useElectionStore = create(
       totalPledges: 14250, // Mock global counter
       hasPledged: false,
 
+      // User Profile & Auth
+      user: null,
+      fullName: '',
+      age: '',
+      pincode: '',
+      isProfileSidebarOpen: false,
+
       setActiveTab: (tab) => set({ activeTab: tab }),
 
       toggleTheme: () => set((state) => {
@@ -34,6 +41,12 @@ export const useElectionStore = create(
 
       setSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
       toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+      
+      setProfileSidebarOpen: (isOpen) => set({ isProfileSidebarOpen: isOpen }),
+      toggleProfileSidebar: () => set((state) => ({ isProfileSidebarOpen: !state.isProfileSidebarOpen })),
+
+      setUser: (user) => set({ user }),
+      setProfileData: (data) => set((state) => ({ ...state, ...data })),
 
       // Accessibility Setters
       setDyslexiaFont: (val) => set({ dyslexiaFont: val }),

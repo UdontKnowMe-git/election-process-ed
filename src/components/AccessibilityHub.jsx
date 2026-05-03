@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useElectionStore } from '../store/useElectionStore';
 import translations from '../data/translations.json';
+import { YouTubeService } from '../services/YouTubeService';
 
 const LANGUAGES = [
   { id: 'en', label: 'English' },
@@ -49,6 +50,7 @@ const Toggle = ({ enabled, onChange, label, icon: Icon }) => (
 export const AccessibilityHub = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showTranslationTip, setShowTranslationTip] = useState(false);
+  const [videos, setVideos] = useState([]);
   const dropdownRef = useRef(null);
 
   const {
@@ -79,6 +81,10 @@ export const AccessibilityHub = () => {
       setTimeout(() => setShowTranslationTip(false), 5000);
     }
   };
+
+  useEffect(() => {
+    YouTubeService.fetchContextualVideos(LANGUAGES.find(l => l.id === language)?.label || 'English').then(setVideos);
+  }, [language]);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -176,6 +182,33 @@ export const AccessibilityHub = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Contextual YouTube Videos */}
+              {videos.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-primary-border">
+                  <div className="text-xs font-bold text-primary-text mb-2 uppercase tracking-wider text-center">
+                    Official Guides
+                  </div>
+                  <div className="space-y-2">
+                    {videos.map(video => (
+                      <a 
+                        key={video.id} 
+                        href={video.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block bg-secondary-bg hover:bg-primary-bg transition-colors border border-primary-border rounded-xl overflow-hidden p-2 flex items-center gap-2"
+                      >
+                        {video.thumbnail && (
+                          <img src={video.thumbnail} alt={video.title} className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+                        )}
+                        <span className="text-xs font-medium text-primary-text line-clamp-2 leading-tight">
+                          {video.title}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="p-4 bg-primary-bg/30 text-[10px] text-center text-muted-text italic border-t border-primary-border">

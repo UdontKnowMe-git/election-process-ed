@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle2, Info, MousePointer2, Vote } from 'lucide-react';
+import { X, CheckCircle2, Info, MousePointer2, Vote, Video } from 'lucide-react';
 import { useTranslation } from '../../hooks/useTranslation';
+import { AnalyticsService } from '../../services/AnalyticsService';
+import { YouTubeService } from '../../services/YouTubeService';
 
 const TranslatedText = ({ text, className }) => {
   const { translatedText } = useTranslation(text);
@@ -15,6 +17,7 @@ const VirtualEVM = () => {
   const handleVote = () => {
     if (isCasting) return;
     setIsCasting(true);
+    AnalyticsService.logEvent('evm_vote_simulated');
 
     // Simulate EVM Process
     setTimeout(() => {
@@ -111,6 +114,23 @@ const VirtualEVM = () => {
  * for a selected stage of the Voter Journey.
  */
 export const VoterJourneyModal = ({ isOpen, onClose, data }) => {
+  const [video, setVideo] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && data?.youtubeQuery) {
+      setLoading(true);
+      YouTubeService.searchVideos(data.youtubeQuery).then(results => {
+        if (results && results.length > 0) {
+          setVideo(results[0]);
+        }
+        setLoading(false);
+      });
+    } else {
+      setVideo(null);
+    }
+  }, [isOpen, data]);
+
   if (!isOpen) return null;
 
   return (
@@ -125,7 +145,7 @@ export const VoterJourneyModal = ({ isOpen, onClose, data }) => {
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full max-w-2xl dark:bg-white/10 bg-[rgba(255,255,255,0.8)] border dark:border-white/20 border-slate-300/50 backdrop-blur-xl rounded-3xl p-8 shadow-2xl overflow-y-auto max-h-[85vh] styled-scrollbar"
+        className="relative w-full max-w-2xl bg-[#FDFBF7]/80 backdrop-blur-md border border-white/20 rounded-[2.5rem] p-10 shadow-2xl shadow-indigo-900/10 overflow-y-auto max-h-[85vh] styled-scrollbar flex flex-col gap-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Background Glow */}
@@ -134,43 +154,72 @@ export const VoterJourneyModal = ({ isOpen, onClose, data }) => {
 
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-full dark:bg-white/5 bg-gray-200 hover:bg-gray-300 dark:hover:bg-white/10 transition-colors border dark:border-white/10 border-slate-300/50 dark:!text-white !text-slate-900"
+          className="absolute top-6 right-6 p-2 rounded-full bg-slate-200 hover:bg-slate-300 transition-colors border border-slate-300 text-indigo-600"
         >
           <X size={20} />
         </button>
 
-        <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-blue-500/20 rounded-2xl border border-blue-400/30">
-            <data.icon className="text-blue-600 dark:text-blue-400" size={32} />
+        <div className="flex items-center gap-6">
+          <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100/50">
+            <data.icon className="text-indigo-600" size={36} />
           </div>
           <div>
-            <span className="text-blue-600 dark:text-blue-400 font-bold tracking-widest text-sm uppercase">{data.stage}</span>
-            <h2 className="text-3xl font-black !text-primary-text"><TranslatedText text={data.title} /></h2>
+            <span className="text-indigo-600 font-bold tracking-widest text-xs uppercase opacity-70">{data.stage}</span>
+            <h2 className="text-3xl font-black text-[#001F3F] leading-tight"><TranslatedText text={data.title} /></h2>
           </div>
         </div>
 
         <div className="space-y-6">
           <div>
-            <h4 className="!text-muted-text font-semibold mb-3 flex items-center gap-2">
-              <Info size={16} /> <TranslatedText text="Key Steps" />
+            <h4 className="text-[#001F3F] font-semibold mb-3 flex items-center gap-2">
+              <Info size={16} className="text-indigo-600" /> <TranslatedText text="Key Steps" />
             </h4>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {data.details.steps.map((step, i) => (
-                <li key={i} className="flex items-start gap-3 p-3 rounded-xl dark:bg-white/5 bg-gray-100 border dark:border-white/10 border-slate-300/50">
-                  <CheckCircle2 size={18} className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span className="!text-muted-text text-sm"><TranslatedText text={step} /></span>
+                <li key={i} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <CheckCircle2 size={18} className="text-indigo-600 shrink-0 mt-0.5" />
+                  <span className="text-[#001F3F] text-sm"><TranslatedText text={step} /></span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-400/20">
-            <h4 className="text-blue-700 dark:text-blue-400 font-bold mb-2 flex items-center gap-2">
+          <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-100">
+            <h4 className="text-indigo-600 font-bold mb-2 flex items-center gap-2">
               <MousePointer2 size={16} /> <TranslatedText text="How to proceed:" />
             </h4>
-            <p className="!text-muted-text text-sm leading-relaxed">
+            <p className="text-[#001F3F] text-sm leading-relaxed">
               <TranslatedText text={data.details.howTo} />
             </p>
+          </div>
+
+          {/* Watch Tutorial Section */}
+          <div className="p-6 rounded-2xl bg-[#FDFBF7]/80 backdrop-blur-md border border-white/20 shadow-xl">
+            <h4 className="text-indigo-600 font-bold mb-4 flex items-center gap-2">
+              <Video size={20} /> <TranslatedText text="Watch Tutorial" />
+            </h4>
+            {loading ? (
+              <div className="aspect-video bg-slate-200 animate-pulse rounded-xl" />
+            ) : video ? (
+              <div className="space-y-3">
+                <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-indigo-600/10">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${video.id}`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <p className="text-[#001F3F] text-xs font-bold truncate px-1">
+                  {video.title}
+                </p>
+              </div>
+            ) : (
+              <p className="text-xs text-[#001F3F]/60 italic"><TranslatedText text="No tutorial found for this stage." /></p>
+            )}
           </div>
 
           {data.hasEVM && <VirtualEVM />}
