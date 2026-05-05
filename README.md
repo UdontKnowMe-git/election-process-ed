@@ -49,7 +49,7 @@ We've implemented a **Voter-Centric Design** philosophy to ensure inclusivity fo
 - **High Contrast Mode**: A dedicated mode for users with visual impairments.
 - **Dynamic Text Scaling**: Customizable text sizing for elderly or visually impaired voters.
 - **Reduced Motion**: Optimized for users sensitive to animations.
-
+- **Youtube tutorials**: Tutorials and guides related to election and voting in many different languages
 ---
 
 ## 🛠️ Technical Stack
