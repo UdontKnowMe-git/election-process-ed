@@ -58,7 +58,7 @@ We've implemented a **Voter-Centric Design** philosophy to ensure inclusivity fo
 - **AI Engine**: Integrated with **Google's Gemini ecosystem** for intelligent, non-partisan guidance.
 - **Globalization**: Custom **Lingva Proxy** integration for privacy-safe, real-time translations.
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand).
-- **Compliance**: Fully optimized for **100/100 Google Lighthouse** standards.
+- **Compliance**: Fully optimized for **100/100 Google Lighthouse** standards.(locally hosted score. score drops on production)
 
 ---
 
